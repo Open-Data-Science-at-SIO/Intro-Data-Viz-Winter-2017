@@ -1,6 +1,6 @@
-# Course Objectives
-
 [![Join the chat at https://gitter.im/Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017](https://badges.gitter.im/Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017.svg)](https://gitter.im/Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+# Course Objectives
 
 Intro-level data visualization and data wrangling for R Users Group (Winter quarter 2017)
 
