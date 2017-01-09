@@ -1,5 +1,7 @@
 # Course Objectives
 
+[![Join the chat at https://gitter.im/Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017](https://badges.gitter.im/Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017.svg)](https://gitter.im/Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Intro-level data visualization and data wrangling for R Users Group (Winter quarter 2017)
 
 The primary goal of the course is to get students familiar with the process of reading, manipulating, and visualizing data. The course will be taught primarily in R, but will touch on related topics such as R markdown, the "grammar of graphics", Shiny, and Git. 
