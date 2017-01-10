@@ -1,16 +1,24 @@
+Join our chatroom to keep appraised of updates, info, and general Q&A:
+
 [![Join the chat at https://gitter.im/Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017](https://badges.gitter.im/Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017.svg)](https://gitter.im/Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-# Course Objectives
+# Introduction to Data Visualization and Data Wrangling for R Users Group (Winter 2017)
 
-Intro-level data visualization and data wrangling for R Users Group (Winter quarter 2017)
+## Course Objectives
 
-The primary goal of the course is to get students familiar with the process of reading, manipulating, and visualizing data. The course will be taught primarily in R, but will touch on related topics such as R markdown, the "grammar of graphics", Shiny, and Git. 
+The goal of the course is to get students familiar with the process of reading, manipulating, and visualizing data. The course will be taught primarily in R, but will touch on related topics such as R markdown, the "grammar of graphics", Shiny, and Git. 
 
 Github Repo for the course: https://github.com/Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017
 
 ## Target Audience
 
 Students should have some familiarity with programming and/or R (e.g. past experience programming in R for an introductory stats course). A short introductory course in R (e.g. https://www.datacamp.com/courses/free-introduction-to-r) will also suffice.
+
+## Code of Conduct
+
+All students will be expected to follow the SIO Open Data Science Code of Conduct: https://open-data-science-at-sio.github.io/mission.html
+
+Note that this applies both to the physical space for classes, as well as online interactions in the chatroom, mailing list, and Github repository.
 
 ## Pre-requisites
 
@@ -26,7 +34,7 @@ Each class will be 30-45 min. of guided code demos, followed by 30-45 min of Q&A
 
 Students are **highly encouraged** to bring laptops to class to follow along.
 
-# Schedule
+## Schedule
 
 * January 12 (Week 1)
     * Course Logistics
