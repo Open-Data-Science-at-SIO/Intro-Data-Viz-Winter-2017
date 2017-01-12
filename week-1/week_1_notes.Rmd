@@ -6,25 +6,336 @@ output:
   html_document:
     number_sections: yes
     toc: yes
+    smart: FALSE
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Objectives
+
+* Review Course Logistics
+    - Review code of conduct
+    - Introduce post-it system for real-time feedback
+    - How is the course structured?
+* Introduce Version Control
+    - What is Git? (configure Git on local machines)
+    - What is Github? (setup SSH access)
+    - How do I use Git and Github? (clone course repo to local machine)
+* Review R data structures
+    - What are the basic R data types?
+    - What are the basic R data structures? (become familiar with indexing schemes)
+
 # Course Logistics
 
 ## Code of Conduct
+
+All participants are expected to follow the SIO Open Data Science Code of Conduct: https://open-data-science-at-sio.github.io/mission.html
+
+Note that this applies both to the physical space for classes, as well as online interactions in the chatroom, mailing list, and Github repository.
+
+Our goal is to create an open and respectful environment for learning. The purpose of reviewing the code of conduct is to explicitly make clear our expectations for behavior this environment, and not because we actually anticipate any problems. However, if you do observe a violation, please report it to any of the following:
+
+* course instructors
+    - Hao Ye \<hye AT ucsd DOT edu\>
+    - Lynn Waterhouse \<lwaterho AT ucsd DOT edu\>
+    - Brian Stock \<b1stock AT ucsd DOT edu\>
+* Open Data Science management team
+    - Jessica Blanton \<jmblanton AT ucsd DOT edu\>
+    - Tessa Pierce \<ntpierce AT ucsd DOT edu\>
+    - Hao Ye \<hye AT ucsd DOT edu\>
+* SIO Ombuds Contacts 
+    - Peter Franks \<pjfranks AT ucsd DOT edu\>
+    - Lynne Talley \<ltalley AT ucsd DOT edu\>
+
 ## Post-it System
+
+You should have two sticky notes of different colors. As we will be going through some live examples, please use these to give us feedback in real time. If you're ready to move on, please stick the blue one on the back of your laptop so that we can see it. If you're running into trouble and want to request help, please use the red one instead.
+
+Also, do hold on to these until the end of class.
+
+## Course Structure
+
+Classes are scheduled for 90 min: we plan for the first 30-45 minutes to be a mixture of lecture/live-coding, followed by 30-45 min of working on examples or Q&A.
+
+For updates, quick Q&A with the class, or sharing of code snippets, we will be using the Gitter chat service - which is tied to your Github account:
+[![Join the chat at https://gitter.im/Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017](https://badges.gitter.im/Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017.svg)](https://gitter.im/Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+Note that this is not an official course - it is not sanctioned or endorsed by UCSD or SIO, and you will NOT receive any credit for attending.
 
 # Basic Git and Github
 
 ## How Git works
+
+Git operates by storing versions of our files. Here, the basic definitions are:
+
+"repository" ("repo", for short) = a project = a specific folder containing all project files
+"commit" = a saved version of the project files
+
+Git stores all this information inside a hidden `.git` folder within the project folder. This means that deleting or moving project files to a new folder will cause it to be desynced from the Git repositiory. Instead, move the entire project folder as a whole.
+
+### Basic Git Configuration
+
+We want to setup our Git profile so that commits are properly documented, and later to be associated with our Github account.
+
+First open the shell. Then setup the username which will appear on commits, and the email, which should match what we use in Github.
+
+```
+git config --global user.name "Hao Ye"
+git config --global user.email "hye@ucsd.edu"
+```
+
+We also want to setup the default text editor for writing commit messages. We recommend using "nano" unless you have a preference for something specific (e.g. emacs, vim)
+
+```
+git config --global core.editor "nano -w"
+```
+
 ## How Github works
-## Setting Up Github Authentication
-## Cloning the Course Repo
+
+Github is a cloud service for archiving or sharing Git repositories. In essence, Github keeps a duplicate copy of your project files and Git repository information. Thus, it can serve as an off-site backup for your files if you keep your *local* repository synced with Github.
+
+Interactions with Github need to be authenticated (so that not just anyone can upload to the repos in your account, and so that your uploads are properly attributed.) By default this is done using your account info - you enter your account password to authenticate interactions.
+
+### Creating an SSH key
+
+However, we can create an SSH key (or more accurately a key pair) to make this more seamless. We can do this simply from within RStudio.
+
+From the main preferences, there is a Git/SVN tab, which allows us to view our "public key" if it exists, and also to create an RSA key. We can click on the create button to make a new key. If you're using your private laptop, then you shouldn't need a passphrase.
+
+### Setting up the SSH key on Github
+
+Now we need to give our public key to Github within our account settings: https://github.com/settings/keys
+
+Click on "New SSH key", and then go back to RStudio. From the main preferences, on the Git/SVN tab, we can view our public key. Copy and paste this into the Github webpage. You'll also want to name the key - I use "\{username\}@\{machine name\}".
+
+### Cloning the Course Repo
+
+We begin by opening the shell and navigating to the parent directory where we want the course repo to end up. Then we type in the following command:
+
+```
+git clone git@github.com:Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017.git
+```
+
+This should start downloading the repo. If this is your first time interacting with Github, you will receive a warning about the authenticity of the server. You can check that the RSA key fingerprint matches one of the ones listed here: https://help.github.com/articles/github-s-ssh-key-fingerprints/
+
+Note that the default folder name for the repo matches the repository name. You can change this by simply renaming the folder (Git only cares about the contents).
 
 # Overview of R data types
-    * Overview of R data types (numeric, factor, string, date & time, binary, etc.)
+
+In general, data "type" this isn't something we need to worry about, because R is quite good at inferring type from context and converting when necessary, but it can be extremely important when we run into trouble or when we are dealing with imported data.
+
+First, we note that R has several atomic (i.e. single-element) "types", which reflect how it stores the data internally and what operations are allowed.
+
+## Examples
+
+```{r data type examples, eval = FALSE}
+"a" # "character" variables can be a single character
+"lorem ipsum" # or multiple characters
+"stop('something went wrong')" # and can include code (which remains un-evaluated)
+
+15.5 # a simple "numeric"
+2 # numbers default to "floating-point" representation (approximated)
+
+2L # the L tells R that this should be stored as an "integer"
+
+TRUE # "logical" data occur when we check for binary conditions
+FALSE
+```
+
+## Basic Functions to Examine Variables
+
+There are several functions that we can use get info about objects:
+
+```{r examining data types}
+x <- TRUE
+typeof(x)
+
+y <- "numeric"
+typeof(y)
+nchar(y)
+
+z <- 1:10
+typeof(z)
+length(z)
+
+w <- as.numeric(z)
+typeof(w)
+```
 
 # Overview of R data structures
-    * Overview of R data structures (array, list, matrix, data frames, etc.)
+
+In most cases, we'll be working with more complex data objects, with different properties.
+
+## Vector
+
+Any of the basic data types can be elements of simple "vectors" in R. (and we already saw an example with `1:10`):
+
+```{r}
+vector() # default empty vector of type "logical"
+
+vector("character", length = 5) # specify both type and length, fill with default value
+
+numeric(10)
+
+logical(4)
+```
+
+We can create vectors or combine them using the generic `c` function. Note that trying to mix types will force conversions.
+
+```{r}
+x <- c(1, 2, 3)
+typeof(x)
+
+y <- c(x, -1000)
+y
+
+z <- c(FALSE, y)
+z
+
+w <- c(z, "FALSE")
+w
+```
+
+The `seq` function is also useful for generating numerical vectors:
+
+```{r}
+seq(11)
+
+seq(from = 2, to = 9)
+
+seq(from = -1, to = 1, by = 0.1)
+
+seq(from = 0, to = 1, length.out = 20)
+```
+
+We access elements of vectors using square bracket notation:
+
+```{r}
+x <- 2:20
+x[1]
+
+x[-1]
+
+x[2:4]
+
+x[2:20]
+
+x[c(3, 5:10, 1)]
+```
+
+## Matrix
+
+In R, "matrices"" are extensions of arrays with exactly 2 dimensions. (Higher-dimensional arrays are also supported, but do not have special mathematical operators like matrices do.)
+
+```{r}
+A <- matrix(nrow = 2, ncol = 2)
+dim(A)
+
+B <- matrix(1:6, nrow = 2)
+B
+
+C <- 1:10
+dim(C) <- c(2, 5)
+C
+
+cbind(B, C)
+
+rbind(1:2, A)
+
+D <- matrix(c(1, 2, 3, 
+              4, 5, 6, 
+              7, 8, 9), nrow = 3, byrow = TRUE)
+D
+```
+
+## List
+
+In R, "lists"" are generic containers which can contain mixtures of element types.
+
+```{r}
+x <- list(1, "a", TRUE, NA)
+x
+```
+
+These elements can even include other data structures, such as lists or data frames.
+```{r}
+y <- list(a = "FALSE", b = c(1:10, Inf), data = head(mtcars))
+y
+```
+
+Accessing elements or sublists also uses square bracket notation:
+
+```{r}
+y[1] # returns a list with one element
+
+y[1:2]
+```
+
+Using double square brackets will simplify the return value:
+
+```{r}
+y[[1]] # returns just the element of the list
+```
+
+## Data Frame
+
+"Data Frames" are the most common format for data in R, and are actually lists where each element has the same length. This allows for datasets to be composed of different data types:
+
+```{r}
+dd <- data.frame(id = letters[1:10], x = 1:10, y = 11:20, z = runif(10))
+
+is.list(dd)
+class(dd)
+```
+
+Many of the common functions and access methods apply:
+
+```{r label, options}
+head(iris)
+tail(iris)
+dim(iris)
+NROW(iris)
+NCOL(iris)
+iris[3:10, c(1, 4)]
+names(iris)
+iris$Sepal.Length[1:4]
+```
+
+# Extras
+
+## Special Values
+
+R has native support for missing data and other special values:
+
+```{r}
+x <- c(0.5, NA, 0.7)
+x
+is.na(x)
+
+y <- c(FALSE, TRUE, NA)
+y
+is.na(y)
+
+1/0
+
+0/0
+
+Inf + 2
+
+Inf + Inf
+Inf - Inf
+Inf * Inf
+Inf / Inf
+```
+
+## Numerical Precision
+
+```{r ugh math}
+0.1 + 0.1 == 0.2
+0.2 + 0.1 == 0.3
+```
+
+# Acknowledgements
+
+Some of this basic info, especially on R data types and data structures, are derived from the "Programming with R" lesson on Software Carpentry: https://swcarpentry.github.io/r-novice-inflammation/

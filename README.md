@@ -16,7 +16,7 @@ Students should have some familiarity with programming and/or R (e.g. past exper
 
 ## Code of Conduct
 
-All students will be expected to follow the SIO Open Data Science Code of Conduct: https://open-data-science-at-sio.github.io/mission.html
+All participants will be expected to follow the SIO Open Data Science Code of Conduct: https://open-data-science-at-sio.github.io/mission.html
 
 Note that this applies both to the physical space for classes, as well as online interactions in the chatroom, mailing list, and Github repository.
 
