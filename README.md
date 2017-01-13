@@ -42,6 +42,7 @@ Students are **highly encouraged** to bring laptops to class to follow along.
     * Overview of R data types (numeric, factor, string, date & time, binary, etc.)
     * Overview of R data structures (array, list, matrix, data frames, etc.)
 * January 19 (Week 2)
+    * Overview of RStudio interface
     * Basic R markdown (`rmarkdown` and `knitr`)
     * Reading data from files & databases
     * Writing data to files & databases
