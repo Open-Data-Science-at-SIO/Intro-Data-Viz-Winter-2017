@@ -34,3 +34,15 @@ knitr::opts_chunk$set(echo = TRUE)
         - renaming columns
         - converting variable typrs
         - modifying values
+
+
+
+# Extras
+
+## Additional Information 
+
+* https://rawgit.com/kevinushey/2017-rstudio-conf/master/slides.html#1
+  RStudio tips and tricks
+
+
+
