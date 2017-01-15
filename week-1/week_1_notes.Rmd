@@ -304,6 +304,16 @@ iris$Sepal.Length[1:4]
 
 # Extras
 
+## Additional Information
+
+* https://speakerdeck.com/alicebartlett/git-for-humans
+
+    I really like this introduction to Git that goes through the jargon and their various use cases.
+
+* http://happygitwithr.com/rstudio-git-github.html
+
+    A quick guide to making new repositories on Github and associating them with a new RStudio project.
+
 ## Special Values
 
 R has native support for missing data and other special values:

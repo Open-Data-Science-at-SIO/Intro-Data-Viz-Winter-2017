@@ -1,0 +1,36 @@
+---
+title: "Week 2"
+author: "Hao Ye"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+    smart: FALSE
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Objectives
+* RStudio configuration
+    - panel layout
+    - script vs. console
+    - autocomplete and keyboard shortcuts
+* R markdown introduction
+    - Installing R packages
+    - What is it? What are the basic use cases?
+    - Basic formatting syntax
+    - Running code and showing output inline
+* Reading and Writing Data
+    - What is the working directory?
+    - Using read.csv to read from a csv file
+    - Using write.csv to read to a csv file
+    - Using save and saveRDS to write binary objects
+* Basic Data Wrangling
+    - Long vs. Wide data formats
+    - Converting between formats
+    - Basic validation
+        - renaming columns
+        - converting variable typrs
+        - modifying values

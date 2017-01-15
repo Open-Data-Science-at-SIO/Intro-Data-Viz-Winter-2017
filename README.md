@@ -10,17 +10,17 @@ The goal of the course is to get students familiar with the process of reading, 
 
 Github Repo for the course: https://github.com/Open-Data-Science-at-SIO/Intro-Data-Viz-Winter-2017
 
-## Target Audience
-
-Students should have some familiarity with programming and/or R (e.g. past experience programming in R for an introductory stats course). A short introductory course in R (e.g. https://www.datacamp.com/courses/free-introduction-to-r) will also suffice.
-
 ## Code of Conduct
 
 All participants will be expected to follow the SIO Open Data Science Code of Conduct: https://open-data-science-at-sio.github.io/mission.html
 
 Note that this applies both to the physical space for classes, as well as online interactions in the chatroom, mailing list, and Github repository.
 
-## Pre-requisites
+## Target Audience
+
+Students should have some familiarity with programming and/or R (e.g. past experience programming in R for an introductory stats course). A short introductory course in R (e.g. https://www.datacamp.com/courses/free-introduction-to-r) will also suffice.
+
+### Pre-requisites
 
 Students who plan to attend should install R (https://cran.r-project.org/), RStudio (https://www.rstudio.com/products/rstudio/download/), and Git (https://git-scm.com/). While RStudio is not strictly necessary for this course, it will ensure a standard user interface for students to follow along.
 
@@ -30,7 +30,7 @@ Students should also create a GitHub account (https://github.com/).
 
 Class meets every Thursday 1pm - 2:30pm in Hubbs Hall 4500 (unless otherwise noted).
 
-Each class will be 30-45 min. of guided code demos, followed by 30-45 min of Q&A / interactive lab sessions.
+Each class will be ~~30-45~~ 60 min. of guided code demos, followed by ~~30-45~~ 30 min of Q&A / interactive lab sessions.
 
 Students are **highly encouraged** to bring laptops to class to follow along.
 
@@ -42,9 +42,10 @@ Students are **highly encouraged** to bring laptops to class to follow along.
     * Overview of R data types (numeric, factor, string, date & time, binary, etc.)
     * Overview of R data structures (array, list, matrix, data frames, etc.)
 * January 19 (Week 2)
+    * RStudio interface setup
+    * Installing R packages
     * Basic R markdown (`rmarkdown` and `knitr`)
-    * Reading data from files & databases
-    * Writing data to files & databases
+    * Reading and writing data from files & databases
     * Basic data wrangling
         * Conversion between wide and long formats
         * Data validation
