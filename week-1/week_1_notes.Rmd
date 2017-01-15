@@ -78,7 +78,7 @@ Git stores all this information inside a hidden `.git` folder within the project
 
 We want to setup our Git profile so that commits are properly documented, and later to be associated with our Github account.
 
-First open the shell. Then setup the username which will appear on commits, and the email, which should match what we use in Github.
+First open the shell (RStudio -> Tools -> Shell). Then setup the username which will appear on commits, and the email, which should match what we use in Github.
 
 ```
 git config --global user.name "Hao Ye"
