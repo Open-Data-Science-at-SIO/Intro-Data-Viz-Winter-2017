@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
     - panel layout
     - script vs. console
     - autocomplete and keyboard shortcuts
-* R markdown introduction
+* R Markdown introduction
     - Installing R packages
     - What is it? What are the basic use cases?
     - Basic formatting syntax
@@ -43,21 +43,270 @@ In RStudio, the location of the different panes can be changed by going to Tools
 
 Note that in more recent versions of RStudio, the tabs for script files can be "docked" and "undocked" from the "Source" pane.
 
+Also check out the "document outline" feature! (button or "Cmd + Shift + O" or "Ctrl + Shift + O")
+
 ## Working in Script files vs. Console
 
 Each instance RStudio is associated with an R "session". Here, the "session" can be thought of as a self-contained environment for work to be done. When we start up RStudio, we get a new R session with an empty environment to work in.
 
 The "console" represents our main interface to this R session, and is where we can enter in commands (in the form of R code) and receive basic output in text form; other commands may produce plots in a plot window, or write to files.
 
-R scripts are just collections of R code save in a file. We can have this code be run in the console in several ways:
+R scripts are just collections of R code saved in a file (plaintext). We can have this code be run in the console in several ways:
 
 * copy-paste the code directly
 * give the console a command to run all the code in a particular file (this uses the `source` command with the name of the file to run)
 
 RStudio has keyboard shortcuts for both of the above, which enable us to more quickly test specific lines of code or run entire script files.
 
-## Autocomplete and Keyboard Shortcuts
+## Auto-complete and Keyboard Shortcuts
 
+Here are some basic keyboard shortcuts for RStudio, though there are many more (see additional information below).
 
+* "tab" will auto-complete a variable name, a function name, or a file name (with a menu of multiple choices if the name is not uniquely identifiable)
+* "Cmd + Enter" or "Ctrl + Enter" will run the current line in the script (i.e. paste it into the console and run it) and move to the next line.
+* "Cmd + Shift + S" or "Ctrl + Shift + S" will `source` the current script file - execute it all in the console.
+* "Ctrl + l" will clear the console (clear its history and move the cursor to the top of the window -- does not reset R session)
+* "[up arrow]" and "[down arrow]" at the console will scroll through recent commands
+* "Ctrl + 1" and "Ctrl + 2" will navigate the cursor to the script or console, respectively.
+* "Cmd + I" or "Ctrl + I" will reindent lines
+* "Cmd + Shift + C" or "Ctrl + Shift + C" will comment or uncomment the selected lines
+* "Cmd + Shift + I" or "Ctrl + Shift + I" will insert a code chunk (R markdown)
+* "Cmd + Shift + Enter" or "Ctrl + Shift + Enter" will run the current code chunk (R markdown)
+* "Cmd + Shift + K" or "Ctrl + Shift + K" will knit the current document (R markdown)
 
+# R markdown
 
+## Installing Packages
+
+R's base functionality is extended through "packages", which are primarily distributed through online repositories, such as CRAN and Bioconductor. By default, packages are installed from CRAN, which can be accessed through the RStudio interface (Tools -> Install Packages) or by running the R function `install.packages()`.
+
+For this week, we will use a number of packages:
+
+* `rmarkdown`
+
+    supports documents written in R markdown format and subsequent conversion to diferent output types
+* `tidyr`
+
+    a collection of methods for "tidying" data
+
+(and a number of other packages that these depend on - which are automatically installed.)
+
+```{r, cache = TRUE}
+install.packages("rmarkdown", repos = "https://cran.cnr.berkeley.edu/")
+install.packages("tidyr", repos = "https://cran.cnr.berkeley.edu/")
+```
+
+## What is R Markdown?
+
+R Markdown is a way to create *reproducible reports*. The idea is that the output of data analysis often needs to be preceded by a description of the problem, and followed by a discussion of the results (i.e. a paper). Instead of moving back and forth between code and another document format, R Markdown allows this all to be done in a single file, and for the code to be embedded as well.
+
+R Markdown supports a number of different output formats, including:
+
+* HTML reports
+* Markdown for viewing within Github
+* PDF documents using $\LaTeX$
+    - including journal article templates in `rticles` and other packages
+* MS Word
+* Slides using Beamer or `xaringan`
+* Websites using `blogdown`
+* Books using `bookdown`
+* Interactive apps using `shiny`
+* Documentation vignettes for R packages
+
+## Basic Syntax
+
+An R Markdown file is plaintext, and using RStudio to make a new R Markdown file gives a basic initial template.
+
+The top of each file is a header that describes the basic info for the file and options for the output formatting.
+
+```
+#, ##, ###, etc. are used for section headings
+
+*italics*, and **bold** for italicized and bold text, respectively
+
+[link](URL) adds a link to URL with "link" as the text
+
+![alt-text](image.jpg) inserts image.jpg with alt-text
+
+$eqn$ for inline equations
+
+* bulleted list
+    + sub-bullet
+
+1. numbered list
+    a. sub-bullet
+```
+
+Code blocks start and end with triple-backticks: ` ``` `
+
+## R code blocks
+
+R code to be evaluated begin the code block with additional information: ` ```{r chunk-name, options} `
+
+Some basic options include:
+* `echo = FALSE` (don't show code block, just output)
+* `eval = FALSE` (don't evaluate code block)
+* `results = "hide"` (show code block, but hide any results)
+* `cache = TRUE` (store output and load if chunk has not changed)
+
+When the `knit` button is pressed or the keyboard shortcut invoked, all code blocks will be processed, and the output included into the final output as appropriate.
+
+Individual code chunks can still be run through the console as though the file were an R script.
+
+In the latest version of RStudio, the output of code chunks will also be shown embedded in the R markdown file.
+
+```{r}
+summary(rnorm(1000))
+```
+
+```{r}
+mtcars
+```
+
+# Reading and Writing Data
+
+## Working Directory
+
+By default, R interfaces with files through the "working directory". There are a few functions that can be used to both identify the current working directory and to change it:
+
+```{r, eval = FALSE}
+default_working_directory <- getwd() # return the current working directory
+setwd("/Users/hye/Desktop") # change the working directory to the desktop
+getwd()
+```
+
+Notes on default locations:
+
+* For new R sessions, the default working directory is typically the user's home directory.
+* For R Markdown files, the default working directory is that which contains the .Rmd file.
+* For RStudio projects, the default working directory is that which contains the .Rproj file.
+
+## Reading and Writing From Text Files
+
+R includes a number of functions to read and write data to files. 
+
+`read.table` is the general function for reading data in table formats, for which `read.csv` and `read.delim` are specific versions with certain default options set for reading "comma separated value" files and "tab delimited" files, respectively.
+
+```{r}
+my_data <- read.csv("env_data.csv")
+summary(my_data)
+```
+
+We can also output data to table formats using the corresponding `write.table` and `write.csv` functions. Note that the default output options may change what the data file looks like.
+
+```{r}
+write.csv(my_data, file = "env_data_written_back.csv")
+```
+
+## Reading and Writing From Binary Files
+
+R also allows us to read and write objects in "native" R formats. This has several advantages and disadvantages:
+
+* smaller files and faster to read and write (also, various further compression options)
+* more convenient for complex objects (e.g. things that aren't 2D tables)
+* can include multiple objects in a single file
+* **NOT** in plain-text: can't be opened in any text editor (perhaps not by any non-R program?)
+
+### Rdata files
+
+Rdata files are binary files that can contain multiple R objects. The basic functions for writing and reading objects are `save` and `load` respectively. When used, the named objects are written and read back.
+
+Note that if no objects are given as arguments to `save`, everything in the workspace will be saved.
+
+```{r}
+save(my_data, file = "my_data.Rdata")
+```
+
+Note that loading .Rdata will overwrite any objects of the same name in the current R session.
+
+```{r}
+load("my_data.Rdata")
+```
+
+### RDS files
+
+For finer control, RDS files can be used instead, which only store a single R object, but which can be read back under a different name.
+
+```{r}
+saveRDS(my_data, file = "my_data.RDS")
+```
+
+```{r}
+new_name_for_my_data <- readRDS("my_data.RDS")
+```
+
+# Basic Data Wrangling
+
+## Data Validation and Type Conversion
+
+One of the first things we want to check when working with a new dataset is that the variables are stored correctly with the correct column names. The `summary` function does a nice job of letting us know what the basic properties of each column in a data frame:
+
+```{r}
+summary(mtcars)
+```
+
+First, we note that the car models are listed in the rownames, and we want them to be a separate column:
+
+```{r}
+mtcars <- data.frame(model = rownames(mtcars), mtcars)
+summary(mtcars)
+```
+
+Next, the description of the dataset indicates that the `am` column is simply a binary variable for whether the car has an automatic or manual transmission. Thus, it might make more sense as a categorical variable (in R, called a `factor`):
+
+```{r}
+mtcars$transmission_type <- factor(mtcars$am, levels = c(0, 1), labels = c("automatic", "manual"))
+summary(mtcars)
+```
+
+## Conversion Between Wide and Long Formats
+
+In the `mtcars` data frame, each row is a separate car, with columns representing different properties. This kind of format is "wide" and makes it simple, if we wanted to make comparisons across all cars.
+
+```{r}
+plot(mtcars$mpg, mtcars$hp, xlab = "Miles per Gallon", ylab = "Horsepower")
+```
+
+However, more complex analyses and plots require the data to be in "long" format, where each row of the data frame is an observation, with a "measurement" column to describe the type of observation made. Each car would then have multiple rows, corresponding to the different measured properties.
+
+One way to do the conversion uses the `tidyr` package:
+
+```{r}
+library(tidyr)
+
+mtcars_long <- gather(mtcars, variable, measurement, mpg:carb)
+mtcars_long$variable <- as.factor(mtcars_long$variable)
+
+summary(mtcars_long)
+```
+
+And which also allows us to go in the other direction:
+
+```{r}
+mtcars_wide <- spread(mtcars_long, variable, measurement)
+summary(mtcars_wide)
+```
+
+# Extras
+
+## Additional Information 
+
+* https://rawgit.com/kevinushey/2017-rstudio-conf/master/slides.html#1
+
+    RStudio tips and tricks
+  
+* http://rmarkdown.rstudio.com/
+
+    R Markdown basics
+  
+* http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
+
+    Bibliographies and citations in R Markdown
+  
+* https://slides.yihui.name/2017-rstudio-conf-rmarkdown-Yihui-Xie.html#1
+
+    Advanced R Markdown
+    
+* http://www.cookbook-r.com/
+
+    Sample code for various tasks in R
