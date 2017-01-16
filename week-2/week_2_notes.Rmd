@@ -34,3 +34,30 @@ knitr::opts_chunk$set(echo = TRUE)
         - renaming columns
         - converting variable typrs
         - modifying values
+        
+# RStudio
+
+## Visual Interface
+
+In RStudio, the location of the different panes can be changed by going to Tools -> Global Options -> Pane Layout. Note that there are two main panes for "Source" (the window containing script files) and "Console" (the interactive R console), while the other two panes contain tabbed windows for various parts of the interface.
+
+Note that in more recent versions of RStudio, the tabs for script files can be "docked" and "undocked" from the "Source" pane.
+
+## Working in Script files vs. Console
+
+Each instance RStudio is associated with an R "session". Here, the "session" can be thought of as a self-contained environment for work to be done. When we start up RStudio, we get a new R session with an empty environment to work in.
+
+The "console" represents our main interface to this R session, and is where we can enter in commands (in the form of R code) and receive basic output in text form; other commands may produce plots in a plot window, or write to files.
+
+R scripts are just collections of R code save in a file. We can have this code be run in the console in several ways:
+
+* copy-paste the code directly
+* give the console a command to run all the code in a particular file (this uses the `source` command with the name of the file to run)
+
+RStudio has keyboard shortcuts for both of the above, which enable us to more quickly test specific lines of code or run entire script files.
+
+## Autocomplete and Keyboard Shortcuts
+
+
+
+
