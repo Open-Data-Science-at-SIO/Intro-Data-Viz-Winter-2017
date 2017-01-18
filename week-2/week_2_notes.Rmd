@@ -310,3 +310,7 @@ summary(mtcars_wide)
 * http://www.cookbook-r.com/
 
     Sample code for various tasks in R
+    
+* https://www.rstudio.com/resources/cheatsheets/
+
+    Cheatsheets (for various topics in R and RStudio)
