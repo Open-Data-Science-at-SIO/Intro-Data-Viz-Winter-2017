@@ -70,3 +70,36 @@ Students are **highly encouraged** to bring laptops to class to follow along.
 * March 16 (Week 10)
     * TBD (unassigned - catch-up week / guest speaker / advanced topic)
 
+# Links
+
+* https://speakerdeck.com/alicebartlett/git-for-humans
+
+    I really like this introduction to Git that goes through the jargon and their various use cases.
+
+* http://happygitwithr.com/rstudio-git-github.html
+
+    A quick guide to making new repositories on Github and associating them with a new RStudio project.
+    
+* https://rawgit.com/kevinushey/2017-rstudio-conf/master/slides.html#1
+
+    RStudio tips and tricks
+  
+* http://rmarkdown.rstudio.com/
+
+    R Markdown basics
+  
+* http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
+
+    Bibliographies and citations in R Markdown
+  
+* https://slides.yihui.name/2017-rstudio-conf-rmarkdown-Yihui-Xie.html#1
+
+    Advanced R Markdown
+    
+* http://www.cookbook-r.com/
+
+    Sample code for various tasks in R
+    
+* https://www.rstudio.com/resources/cheatsheets/
+
+    Cheatsheets (for various topics in R and RStudio)
