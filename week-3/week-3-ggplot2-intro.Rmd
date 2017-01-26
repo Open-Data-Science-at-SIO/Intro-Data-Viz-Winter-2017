@@ -295,53 +295,53 @@ p1 +
 Example data consist of *Human Development Index* and *Corruption Perception Index* scores for several countries. The data is in the `EconomistData.csv` file. Read it in with:
 
 ```{r}
-dat <- read.csv("EconomistData.csv")
+dat <- read.csv("EconomistData.csv") # Have to be in correct working directory
 head(dat)
 ```
 
-Now try:
+Try to make the following plots. I hid the code - no cheating! If you want to see it, look in the `.Rmd` file.
 
 1.  Create a scatter plot with CPI on the x axis and HDI on the y axis.
 2.  Color the points in the previous plot blue.
 3.  Color the points in the previous plot according to *Region*.
 4.  Create boxplots of CPI by Region
-5.  Overlay points on top of the box plots
+5.  Overlay points on top of the box plots and save to file
 
-## 1. Scatter plot with CPI on the x axis and HDI on the y axis
+## Scatter plot with CPI on the x axis and HDI on the y axis
 
-```{r}
+```{r echo=FALSE}
 p <- ggplot(dat, aes(x=CPI, y=HDI))
 p + geom_point() + theme_bw()
 ```
 
-## 2. Color the points blue
+## Color the points blue
 
-```{r}
+```{r echo=FALSE}
 p + geom_point(col="blue")
 ```
 
-## 3. Color according to region
+## Color according to region
 
-```{r}
+```{r echo=FALSE}
 p + geom_point(aes(col=Region))
 ```
 
-## 4. Boxplots of CPI by region
+## Boxplots of CPI by region
 
-```{r}
+```{r echo=FALSE}
 ggplot(dat, aes(x=Region,y=CPI)) + geom_boxplot()
 ```
 
-## 5. Overlay points on top of boxplots and save to file
+## Overlay points on top of boxplots and save to file
 
-```{r}
+```{r echo=FALSE}
 # png(file = "CPI_boxplot.png", width=7, height=7, units="in", res=300)
 pdf(file = "CPI_boxplot.pdf", width=7, height=7,useDingbats = FALSE)
 ggplot(dat, aes(x=Region, y=CPI)) + geom_boxplot(fill="skyblue") + geom_jitter(width=0.2) + theme_bw()
 dev.off()
 ```
 
-```{r}
+```{r echo=FALSE}
 ggplot(dat, aes(x=Region, y=CPI)) + geom_boxplot(fill="skyblue") + geom_jitter(width=0.2) + theme_bw()
 dev.copy2pdf(file="CPI_boxplot2.pdf",out.type="pdf")
 ```
@@ -356,4 +356,8 @@ dev.copy2pdf(file="CPI_boxplot2.pdf",out.type="pdf")
 * [Doesn't like ggplot so much](http://simplystatistics.org/2016/02/11/why-i-dont-use-ggplot2/)
 * [Response to above, pro-ggplot](http://varianceexplained.org/r/why-I-use-ggplot2/)
 * [Reasons to use ggplot system](https://mandymejia.wordpress.com/2013/11/13/10-reasons-to-switch-to-ggplot-7/)
+
+
+
+
 
