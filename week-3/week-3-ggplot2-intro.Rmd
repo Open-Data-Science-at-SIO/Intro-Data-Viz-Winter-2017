@@ -307,6 +307,46 @@ Now try:
 4.  Create boxplots of CPI by Region
 5.  Overlay points on top of the box plots
 
+## 1. Scatter plot with CPI on the x axis and HDI on the y axis
+
+```{r}
+p <- ggplot(dat, aes(x=CPI, y=HDI))
+p + geom_point() + theme_bw()
+```
+
+## 2. Color the points blue
+
+```{r}
+p + geom_point(col="blue")
+```
+
+## 3. Color according to region
+
+```{r}
+p + geom_point(aes(col=Region))
+```
+
+## 4. Boxplots of CPI by region
+
+```{r}
+ggplot(dat, aes(x=Region,y=CPI)) + geom_boxplot()
+```
+
+## 5. Overlay points on top of boxplots and save to file
+
+```{r}
+# png(file = "CPI_boxplot.png", width=7, height=7, units="in", res=300)
+pdf(file = "CPI_boxplot.pdf", width=7, height=7,useDingbats = FALSE)
+ggplot(dat, aes(x=Region, y=CPI)) + geom_boxplot(fill="skyblue") + geom_jitter(width=0.2) + theme_bw()
+dev.off()
+```
+
+```{r}
+ggplot(dat, aes(x=Region, y=CPI)) + geom_boxplot(fill="skyblue") + geom_jitter(width=0.2) + theme_bw()
+dev.copy2pdf(file="CPI_boxplot2.pdf",out.type="pdf")
+```
+
+
 # Resources
 
 * Basis for this lesson 1: [Harvard tutorial](http://tutorials.iq.harvard.edu/R/Rgraphics/Rgraphics.html)
