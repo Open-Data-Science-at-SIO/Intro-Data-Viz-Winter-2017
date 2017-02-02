@@ -302,7 +302,7 @@ names(iris)
 iris$Sepal.Length[1:4]
 ```
 
-# Extras
+# Resources
 
 ## Additional Information
 

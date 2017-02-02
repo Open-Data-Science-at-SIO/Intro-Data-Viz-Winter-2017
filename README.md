@@ -53,8 +53,10 @@ Students are **highly encouraged** to bring laptops to class to follow along.
     * The "grammar of graphics" (`ggplot2`) & layer system
     * Basic ggplot geoms and plots (scatterplot, histogram, bars, lines)
 * February 2 (Week 4)
-    * Color palettes
-    * Summary statistics in plots
+    * Changing colors in ggplot
+    * The theme layer in ggplot
+    * Custom color palettes (`viridis`, `RColorBrewer`, `spaceMovie`)
+    * Adding summary statistics in plots
 * February 9 (Week 5)
     * Advanced ggplot geoms and plots (density, maps, 3D)
 * February 16 (Week 6)
@@ -72,34 +74,20 @@ Students are **highly encouraged** to bring laptops to class to follow along.
 
 # Links
 
-* https://speakerdeck.com/alicebartlett/git-for-humans
+* [Simple introduction to Git that explains the jargon and various use cases -- https://speakerdeck.com/alicebartlett/git-for-humans](https://speakerdeck.com/alicebartlett/git-for-humans)
+* [A quick guide to making new repositories on Github and associating them with a new RStudio project -- http://happygitwithr.com/rstudio-git-github.html](http://happygitwithr.com/rstudio-git-github.html)
+* [RStudio tips and tricks -- https://rawgit.com/kevinushey/2017-rstudio-conf/master/slides.html#1](https://rawgit.com/kevinushey/2017-rstudio-conf/master/slides.html#1)
+* [R Markdown basics -- http://rmarkdown.rstudio.com/](http://rmarkdown.rstudio.com/)
+* [Bibliographies and citations in R Markdown -- http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
+* [Advanced R Markdown -- https://slides.yihui.name/2017-rstudio-conf-rmarkdown-Yihui-Xie.html#1](https://slides.yihui.name/2017-rstudio-conf-rmarkdown-Yihui-Xie.html#1)
+* [Sample code for various tasks in R -- http://www.cookbook-r.com/](http://www.cookbook-r.com/)
+* [RStudio cheatsheets - https://www.rstudio.com/resources/cheatsheets/](https://www.rstudio.com/resources/cheatsheets/)
+* Basis for week 3 notes: [Harvard tutorial -- http://tutorials.iq.harvard.edu/R/Rgraphics/Rgraphics.html](http://tutorials.iq.harvard.edu/R/Rgraphics/Rgraphics.html)
+* Basis for week 3 notes: [Hadley slides -- http://ggplot2.org/resources/2007-vanderbilt.pdf](http://ggplot2.org/resources/2007-vanderbilt.pdf)
+* [ggplot2 book -- http://roger.ucsd.edu/record=b6914994~S9](http://roger.ucsd.edu/record=b6914994~S9)
+* [Hadley slides on ggplot2 motivation and examples -- http://ggplot2.org/resources/2007-past-present-future.pdf](http://ggplot2.org/resources/2007-past-present-future.pdf)
+* [Argument against ggplot -- http://simplystatistics.org/2016/02/11/why-i-dont-use-ggplot2/](http://simplystatistics.org/2016/02/11/why-i-dont-use-ggplot2/)
+* [Response to above, pro-ggplot -- http://varianceexplained.org/r/why-I-use-ggplot2/](http://varianceexplained.org/r/why-I-use-ggplot2/)
+* [Reasons to use ggplot system -- https://mandymejia.wordpress.com/2013/11/13/10-reasons-to-switch-to-ggplot-7/](https://mandymejia.wordpress.com/2013/11/13/10-reasons-to-switch-to-ggplot-7/)
 
-    I really like this introduction to Git that goes through the jargon and their various use cases.
 
-* http://happygitwithr.com/rstudio-git-github.html
-
-    A quick guide to making new repositories on Github and associating them with a new RStudio project.
-    
-* https://rawgit.com/kevinushey/2017-rstudio-conf/master/slides.html#1
-
-    RStudio tips and tricks
-  
-* http://rmarkdown.rstudio.com/
-
-    R Markdown basics
-  
-* http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
-
-    Bibliographies and citations in R Markdown
-  
-* https://slides.yihui.name/2017-rstudio-conf-rmarkdown-Yihui-Xie.html#1
-
-    Advanced R Markdown
-    
-* http://www.cookbook-r.com/
-
-    Sample code for various tasks in R
-    
-* https://www.rstudio.com/resources/cheatsheets/
-
-    Cheatsheets (for various topics in R and RStudio)
