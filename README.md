@@ -74,14 +74,19 @@ Students are **highly encouraged** to bring laptops to class to follow along.
 
 # Links
 
+## Week 1
 * [Simple introduction to Git that explains the jargon and various use cases -- https://speakerdeck.com/alicebartlett/git-for-humans](https://speakerdeck.com/alicebartlett/git-for-humans)
 * [A quick guide to making new repositories on Github and associating them with a new RStudio project -- http://happygitwithr.com/rstudio-git-github.html](http://happygitwithr.com/rstudio-git-github.html)
 * [RStudio tips and tricks -- https://rawgit.com/kevinushey/2017-rstudio-conf/master/slides.html#1](https://rawgit.com/kevinushey/2017-rstudio-conf/master/slides.html#1)
+
+## Week 2
 * [R Markdown basics -- http://rmarkdown.rstudio.com/](http://rmarkdown.rstudio.com/)
 * [Bibliographies and citations in R Markdown -- http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
 * [Advanced R Markdown -- https://slides.yihui.name/2017-rstudio-conf-rmarkdown-Yihui-Xie.html#1](https://slides.yihui.name/2017-rstudio-conf-rmarkdown-Yihui-Xie.html#1)
 * [Sample code for various tasks in R -- http://www.cookbook-r.com/](http://www.cookbook-r.com/)
 * [RStudio cheatsheets - https://www.rstudio.com/resources/cheatsheets/](https://www.rstudio.com/resources/cheatsheets/)
+
+## Week 3
 * Basis for week 3 notes: [Harvard tutorial -- http://tutorials.iq.harvard.edu/R/Rgraphics/Rgraphics.html](http://tutorials.iq.harvard.edu/R/Rgraphics/Rgraphics.html)
 * Basis for week 3 notes: [Hadley slides -- http://ggplot2.org/resources/2007-vanderbilt.pdf](http://ggplot2.org/resources/2007-vanderbilt.pdf)
 * [ggplot2 book -- http://roger.ucsd.edu/record=b6914994~S9](http://roger.ucsd.edu/record=b6914994~S9)
@@ -90,4 +95,10 @@ Students are **highly encouraged** to bring laptops to class to follow along.
 * [Response to above, pro-ggplot -- http://varianceexplained.org/r/why-I-use-ggplot2/](http://varianceexplained.org/r/why-I-use-ggplot2/)
 * [Reasons to use ggplot system -- https://mandymejia.wordpress.com/2013/11/13/10-reasons-to-switch-to-ggplot-7/](https://mandymejia.wordpress.com/2013/11/13/10-reasons-to-switch-to-ggplot-7/)
 
+## Week 4
+* [theme layer documentation in ggplot -- http://docs.ggplot2.org/dev/vignettes/themes.html](http://docs.ggplot2.org/dev/vignettes/themes.html)
+* [`spaceMovie` package for Star Wars palettes -- https://github.com/butterflyology/spaceMovie](https://github.com/butterflyology/spaceMovie)
+* [`viridis` package for color palettes -- https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
+* [Info about different color scales in ggplot -- http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/)
+* [Cheatsheet about color palettes -- https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf)
 

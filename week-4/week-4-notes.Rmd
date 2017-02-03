@@ -158,6 +158,7 @@ my_theme <- theme(panel.grid.major = element_blank(),
                   panel.background = element_rect(color = "black", fill = NA))
 
 my_plot + my_theme
+my_plot + my_theme + theme(legend.position = "none")
 ```
 
 # Custom color palettes
@@ -181,7 +182,7 @@ And some to generate a **continuous** set of colors:
 ```{r}
 my_plot_2 <- ggplot(dat, aes(x = CPI, y = HDI, color = HDI)) + 
     geom_point()
-my_plot_2 + scale_color_gradient(low = "darkviolet", high = "pink")
+my_plot_2 + scale_color_gradient2(low = "blue", mid = "black", high = "pink", midpoint = 0.6)
 ```
 
 ## Color palettes from packages
@@ -191,7 +192,7 @@ We can also use color palettes provided in packages:
 ```{r}
 library(viridis)
 my_plot + scale_color_viridis(discrete = TRUE)
-my_plot_2 + scale_color_viridis(option = "B")
+my_plot_2 + scale_color_viridis(option = "A")
 ```
 
 ```{r}
@@ -207,8 +208,23 @@ my_plot_2 + scale_color_distiller(palette = "RdYlGn")
 
 ## Exercises
 
-1. Modify the HDI vs. CDI plot to use a different color and symbol for each region.
+1. Modify the HDI vs. CPI plot to use a different color and symbol for each region.
+
+```{r}
+ggplot(dat, aes(x = CPI, y = HDI, 
+                color = Region, shape = Region)) + geom_point()
+```
+
 2. Modify the HDI boxplot to use a different color palette for the lines and for the fill.
+
+```{r}
+ggplot(dat, aes(x = Region, y = HDI, 
+                color = Region, fill = Region)) + 
+    geom_boxplot() + 
+    scale_color_viridis(discrete = TRUE) + 
+    scale_fill_viridis(discrete = TRUE, direction = -1)
+```
+
 
 # Adding statistic transformations and summaries to plots
 
@@ -237,13 +253,43 @@ my_plot_2 + stat_smooth()
 ## Exercises
 
 1. Overlay a smoothing line on top of the scatter plot of HDI vs. CPI using `geom_smooth`, but use a linear model for the predictions. Hint: see `?stat_smooth`.
-2. Overlay a smoothling line on top of the scatter plot using `geom_line`. Hint: change the statistical transformation.
+
+```{r}
+ggplot(dat, aes(x = CPI, y = HDI)) + 
+    geom_point() + 
+    geom_smooth(method = "lm")
+```
+
+2. Overlay a smoothing line on top of the scatter plot using `geom_line`. Hint: change the statistical transformation.
+
+```{r}
+ggplot(dat, aes(x = CPI, y = HDI)) + 
+    geom_point() + 
+    geom_line(stat = "smooth", method = "loess")
+```
+
 3. Overlay a smoothing line on top of the scatter plot using the default `loess` method, but make it less smooth. Hint: see `?loess`.
+
+```{r}
+ggplot(dat, aes(x = CPI, y = HDI)) + 
+    geom_point() + 
+    geom_line(stat = "smooth", method = "loess", span = 0.2)
+```
+
 4. Try the above, but with different colors and smoothing for each `Region`.
+
+```{r}
+ggplot(dat, aes(x = CPI, y = HDI, 
+                group = Region, color = Region)) + 
+    geom_point() + 
+    geom_smooth(method = "lm") + 
+    scale_color_viridis(discrete = TRUE)
+```
 
 # Resources
 
-* http://docs.ggplot2.org/dev/vignettes/themes.html
-* https://github.com/butterflyology/spaceMovie
-* https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html
-* http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
+* [theme layer documentation in ggplot -- http://docs.ggplot2.org/dev/vignettes/themes.html](http://docs.ggplot2.org/dev/vignettes/themes.html)
+* [`spaceMovie` package for Star Wars palettes -- https://github.com/butterflyology/spaceMovie](https://github.com/butterflyology/spaceMovie)
+* [`viridis` package for color palettes -- https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
+* [Info about different color scales in ggplot -- http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/)
+* [Cheatsheet about color palettes -- https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf)
