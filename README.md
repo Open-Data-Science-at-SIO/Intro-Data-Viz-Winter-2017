@@ -102,3 +102,6 @@ Students are **highly encouraged** to bring laptops to class to follow along.
 * [Info about different color scales in ggplot -- http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/)
 * [Cheatsheet about color palettes -- https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf)
 
+## Week 5
+* [ggplot gallery -- http://www.r-graph-gallery.com/portfolio/ggplot2-package/](http://www.r-graph-gallery.com/portfolio/ggplot2-package/)
+* [extensions to ggplot (other packages) -- http://www.ggplot2-exts.org/gallery/](http://www.ggplot2-exts.org/gallery/)

@@ -1,0 +1,273 @@
+---
+title: "Week 5"
+author: "Hao Ye"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+css: styles.css
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+    smart: FALSE
+---
+
+```{r setup, include = FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Objectives
+
+* Explore new plot types through ggplot geoms
+    + `geom_histogram`, `geom_density`, and `geom_violin`
+    + `geom_bin2d`, `geom_hex` and `geom_density2d`
+    + Error bars (`geom_errorbar` and `stat_summary`)
+    + `geom_rect` and `geom_tile`
+* Apply various plot tweaks
+    + coordinate transformations (scaling, limits)
+    + axis labels
+* Make multi-panel plots using `facet_grid` (from `ggplot2`)
+* Make multi-panel plots using `grid.arrange` (from `gridExtra`)
+
+# Review of ggplot
+
+## Load the dataset from week 3
+
+```{r}
+dat <- read.csv("../week-3/EconomistData.csv") # note the path
+head(dat)
+```
+
+## Scatter plot with CPI on the x axis and HDI on the y axis
+
+```{r}
+library(ggplot2)
+
+my_plot <- ggplot(dat, aes(x = CPI, y = HDI)) + 
+    geom_point()
+print(my_plot)
+```
+
+## Scatter plot, with colors and shapes for each region, and different theme
+
+```{r}
+my_plot <- ggplot(dat, aes(x = CPI, y = HDI, 
+                           color = Region, shape = Region)) + 
+    geom_point() + 
+    scale_color_brewer(palette = "Dark2") + 
+    theme_bw()
+print(my_plot)
+```
+
+# More geom types
+
+## 1-D summary of data
+
+### Histograms
+
+A simple histogram of `CPI` values using `geom_histogram`
+
+```{r}
+my_plot <- ggplot(dat, aes(x = CPI)) + 
+    geom_histogram() + 
+    theme_bw()
+print(my_plot)
+```
+
+A stacked version, with different colors by region
+
+```{r}
+my_plot <- ggplot(dat, aes(x = CPI, fill = Region)) + 
+    geom_histogram() + 
+    scale_fill_brewer(palette = "Dark2") + 
+    theme_bw()
+print(my_plot)
+```
+
+### Density Map (1D)
+
+If we want a smoothed histogram, where the density of the underlying distribution is inferred, we can use `geom_density` instead:
+
+```{r}
+my_plot <- ggplot(dat, aes(x = CPI, fill = Region)) + 
+    geom_density(alpha = 0.5) + 
+    scale_fill_hue() + 
+    theme_bw()
+print(my_plot)
+```
+
+### Violin Plots
+
+Violin plots are similar to using `geom_density`, but in the fashion of `geom_boxplot`:
+
+```{r}
+my_plot <- ggplot(dat, aes(x = Region, y = CPI, color = Region)) + 
+    geom_boxplot() + 
+    scale_color_brewer(palette = "Dark2") + 
+    theme_bw()
+print(my_plot)
+```
+
+```{r}
+my_plot <- ggplot(dat, aes(x = Region, y = CPI, color = Region)) + 
+    geom_violin() + 
+    scale_color_brewer(palette = "Dark2") + 
+    theme_bw()
+print(my_plot)
+```
+
+## 2-D summary of data
+
+If we have two axes we want to visualize at the same time, then we need slightly different geoms.
+
+### Histograms (2D)
+
+```{r}
+my_plot <- ggplot(diamonds, aes(x = carat, y = price)) + 
+    geom_bin2d() + 
+    theme_bw()
+print(my_plot)
+```
+
+### Histogram (2D Hexes)
+
+```{r}
+my_plot <- ggplot(diamonds, aes(x = carat, y = price)) + 
+    geom_hex() + 
+    theme_bw()
+print(my_plot)
+```
+
+### Density Map (2D)
+
+```{r}
+my_plot <- ggplot(diamonds, aes(x = carat, y = price)) + 
+    geom_density2d(aes(color = ..level..)) + 
+    theme_bw()
+print(my_plot)
+```
+
+## Error Bars
+
+We previously went over (very briefly), the use of `stat_bin` to display means and standard errors, but there are also specific geoms we can use to display error bars.
+
+Here, we use jitter to space out the points, and then add in the mean and standard error as summary values:
+```{r}
+my_plot <- ggplot(dat, aes(x = Region, y = CPI, color = Region)) + 
+    geom_point(size = 0.5, position = "jitter") + 
+    stat_summary() + 
+    scale_color_brewer(palette = "Dark2") + 
+    theme_bw()
+print(my_plot)
+```
+
+The point and line is a bit hard to see, so let's use an alternate geom:
+```{r}
+my_plot <- ggplot(dat, aes(x = Region, y = CPI, color = Region)) + 
+    geom_point(size = 0.5, position = "jitter") + 
+    stat_summary(geom = "crossbar") + 
+    scale_color_brewer(palette = "Dark2") + 
+    theme_bw()
+print(my_plot)
+```
+
+A more typical plot might be just to plot the means as bars, with error bars. Note that we have to specify for `geom_bar` that we don't want to plot the raw values (since there are multiple points for each region), but rather to compute the mean for each group.
+
+```{r}
+my_plot <- ggplot(dat, aes(x = Region, y = CPI, fill = Region)) + 
+    geom_bar(stat = "summary", fun.y = "mean") + 
+    geom_errorbar(stat = "summary") + 
+    scale_color_brewer(palette = "Dark2") + 
+    theme_bw()
+print(my_plot)
+```
+
+Note that the previous plot uses means and standard errors. If we wanted to plot confidence intervals, we need a slightly different function, in this case, from the `Hmisc` package.
+
+```{r}
+library(Hmisc)
+my_plot <- ggplot(dat, aes(x = Region, y = CPI, fill = Region)) + 
+    geom_bar(stat = "summary", fun.y = "mean") + 
+    geom_errorbar(fun.data = mean_cl_normal, stat = "summary") + 
+    scale_color_brewer(palette = "Dark2") + 
+    theme_bw()
+print(my_plot)
+```
+
+# Other Plot Tweaks
+
+## Coordinate Transformations
+
+If we want to zoom in (or out) on a portion of the plot, we can manually set the plot limits using `coord_cartesian`.
+
+```{r}
+my_plot <- ggplot(diamonds, aes(x = carat, y = price)) + 
+    geom_hex() + 
+    coord_cartesian(xlim = c(0, 4), ylim = c(0, 5000)) + 
+    theme_bw()
+print(my_plot)
+```
+
+Note that this is different from using `scale_x_continuous` (and similar), which actually restricts the data before plotting (which may cut off objects)
+
+```{r}
+my_plot <- ggplot(diamonds, aes(x = carat, y = price)) + 
+    geom_hex() + 
+    scale_x_continuous(limits = c(0, 4)) + 
+    scale_y_continuous(limits = c(0, 5000)) + 
+    theme_bw()
+print(my_plot)
+```
+
+Similarly, we can set a log axis:
+
+```{r}
+my_plot <- ggplot(diamonds, aes(x = carat, y = price)) + 
+    geom_hex() + 
+    scale_y_log10() + 
+    theme_bw()
+print(my_plot)
+```
+
+# Multiple panels using facets
+
+If we want to visualize separate plots for different categorical variables, we can use the facet system in ggplot:
+
+```{r}
+my_plot <- ggplot(dat, aes(x = HDI, y = CPI)) + 
+    geom_point() + 
+    facet_wrap(~ Region) + 
+    theme_bw()
+print(my_plot)
+```
+
+Note that by default, it uses the same axes, which facilitates visual comparison. But this can be turned off:
+
+```{r}
+my_plot <- ggplot(dat, aes(x = HDI, y = CPI)) + 
+    geom_point() + 
+    facet_wrap(~ Region, scales = "free") + 
+    theme_bw()
+print(my_plot)
+```
+
+# Multiple panels using different ggplot objects
+
+Facets work when the plots are all the same type, but what if we want a generic multiple panel figure?
+
+```{r}
+library(gridExtra)
+
+plot_1 <- ggplot(dat, aes(x = HDI, y = CPI)) + 
+    geom_point() + 
+    theme_bw()
+
+plot_2 <- ggplot(dat, aes(x = HDI)) + 
+    geom_density() + 
+    theme_bw()
+
+grid.arrange(plot_1, plot_2)
+```
+
+# Resources
+
+* [ggplot gallery -- http://www.r-graph-gallery.com/portfolio/ggplot2-package/](http://www.r-graph-gallery.com/portfolio/ggplot2-package/)
+* [extensions to ggplot (other packages) -- http://www.ggplot2-exts.org/gallery/](http://www.ggplot2-exts.org/gallery/)
