@@ -105,3 +105,4 @@ Students are **highly encouraged** to bring laptops to class to follow along.
 ## Week 5
 * [ggplot gallery -- http://www.r-graph-gallery.com/portfolio/ggplot2-package/](http://www.r-graph-gallery.com/portfolio/ggplot2-package/)
 * [extensions to ggplot (other packages) -- http://www.ggplot2-exts.org/gallery/](http://www.ggplot2-exts.org/gallery/)
+* [various tweaks to prettify a ggplot figure -- http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/](http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/)
