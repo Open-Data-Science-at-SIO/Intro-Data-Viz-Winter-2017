@@ -267,6 +267,14 @@ plot_2 <- ggplot(dat, aes(x = HDI)) +
 grid.arrange(plot_1, plot_2)
 ```
 
+# Exercises
+
+Try to make some of these other kinds of plots:
+
+1. Stacked bar plots
+2. Stacked area plots (see `geom_area` and `geom_ribbon`)
+3. Other???
+
 # Resources
 
 * [ggplot gallery -- http://www.r-graph-gallery.com/portfolio/ggplot2-package/](http://www.r-graph-gallery.com/portfolio/ggplot2-package/)
