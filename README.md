@@ -58,7 +58,9 @@ Students are **highly encouraged** to bring laptops to class to follow along.
     * Custom color palettes (`viridis`, `RColorBrewer`, `spaceMovie`)
     * Adding summary statistics in plots
 * February 9 (Week 5)
-    * Advanced ggplot geoms and plots (density, maps, 3D)
+    * Advanced ggplot geoms and plots
+    * Various plot tweaks (coordinate transformations)
+    * Multi-panel plots
 * February 16 (Week 6)
     * Advanced data wrangling
     * `tidyr`, `dplyr`, `purrr`

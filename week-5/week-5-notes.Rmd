@@ -20,10 +20,8 @@ knitr::opts_chunk$set(echo = TRUE)
     + `geom_histogram`, `geom_density`, and `geom_violin`
     + `geom_bin2d`, `geom_hex` and `geom_density2d`
     + Error bars (`geom_errorbar` and `stat_summary`)
-    + `geom_rect` and `geom_tile`
 * Apply various plot tweaks
     + coordinate transformations (scaling, limits)
-    + axis labels
 * Make multi-panel plots using `facet_grid` (from `ggplot2`)
 * Make multi-panel plots using `grid.arrange` (from `gridExtra`)
 
