@@ -62,8 +62,9 @@ Students are **highly encouraged** to bring laptops to class to follow along.
     * Various plot tweaks (coordinate transformations)
     * Multi-panel plots
 * February 16 (Week 6)
-    * Advanced data wrangling
-    * `tidyr`, `dplyr`, `purrr`
+    * Advanced data wrangling (`dplyr` and `tidyr`)
+    * subsetting, summarizing, transformations, merging datasets
+    * `lapply` (base R) and `map` (`purrr`) functions
 * February 23 (Week 7)
     * Advanced R markdown and different output formats
 * March 2 (Week 8)
@@ -108,3 +109,8 @@ Students are **highly encouraged** to bring laptops to class to follow along.
 * [ggplot gallery -- http://www.r-graph-gallery.com/portfolio/ggplot2-package/](http://www.r-graph-gallery.com/portfolio/ggplot2-package/)
 * [extensions to ggplot (other packages) -- http://www.ggplot2-exts.org/gallery/](http://www.ggplot2-exts.org/gallery/)
 * [various tweaks to prettify a ggplot figure -- http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/](http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/)
+
+## Week 6
+* [Tidy Data -- http://vita.had.co.nz/papers/tidy-data.pdf](http://vita.had.co.nz/papers/tidy-data.pdf)
+* [Data Wrangling cheatsheet -- https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf)
+* [dplyr vignette -- https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)
