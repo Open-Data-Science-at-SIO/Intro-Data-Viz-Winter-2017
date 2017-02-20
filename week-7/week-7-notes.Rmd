@@ -1,0 +1,73 @@
+---
+title: "Week 7"
+author: "Hao Ye"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+css: styles.css
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+    smart: FALSE
+---
+
+```{r setup, include = FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Objectives
+* Repetitive Tasks
+    - `lapply` (base R) 
+    - `map` (`purrr` package)
+* R markdown chunk options
+    - Evaluation: `eval`
+    - Display output: `echo`, `include`, `results`
+    - Saving output: `cache`
+    - Figure options `fig`
+
+# Repetitive Tasks
+
+## `lapply` (base R)
+
+`lapply` allows us to repeat a series of computations, specifically by making repeated function calls. The basic idea is that given a **vector** or **list** of inputs, `x`, and a function to apply for each input, `f`, produce the **list** of outputs, `y`.
+
+In other words, each element, `y[i]` is computed as `f(x[i])`.
+
+Because we use a function, each computation (generally) occurs independently of the others. This resolves some of the issues that can occur when using for-loops, by maintaining a consistent context for running the code in `f`.
+
+```{r}
+x <- 1:10
+f <- sqrt # note that we want the actual function, so no ()
+logp1 <- function(input) {log(input+1)}
+y1 <- lapply(x, f)
+y2 <- lapply(x, logp1)
+```
+
+Since the result is a list (safest form, since the outputs could be different types), if we want to combine them into a single data.frame using `unlist`.
+```{r}
+data.frame(x, unlist(y1), unlist(y2))
+```
+
+## `map` (`purrr` package)
+
+In many cases, the `map` function from the `purrr` package operates the same as `lapply`:
+
+```{r}
+library(purrr)
+z1 <- map(x, f)
+z2 <- map(x, logp1)
+
+data.frame(x, unlist(y1), unlist(y2), unlist(z1), unlist(z2))
+```
+
+Personally, I only use `purrr` for `map_df`, which combines outputs that are data frames into a single data frame. This is useful for e.g. doing complex computations that return summary data frames, on multiple inputs. (The alternative is a slightly clunky use of `do.call(rbind, )`).
+
+```{r}
+g <- function(input) {return(data.frame(mean = mean(input), uq = quantile(input, 0.75), lq = quantile(input, 0.25)))}
+
+x <- list(rnorm(100), rnorm(1000), rnorm(10000))
+
+map_df(x, g)
+```
+
+# Resources
+

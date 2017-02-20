@@ -64,9 +64,9 @@ Students are **highly encouraged** to bring laptops to class to follow along.
 * February 16 (Week 6)
     * Advanced data wrangling (`dplyr` and `tidyr`)
     * subsetting, summarizing, transformations, merging datasets
-    * `lapply` (base R) and `map` (`purrr`) functions
 * February 23 (Week 7)
-    * Advanced R markdown and different output formats
+    * `lapply` (base R) and `map` (`purrr`) functions
+    * R markdown chunk options (`eval`, `include`, `cache`)
 * March 2 (Week 8)
     * 3d plots (`rgl`)
     * Animation (`gganimate`)
@@ -114,3 +114,6 @@ Students are **highly encouraged** to bring laptops to class to follow along.
 * [Tidy Data -- http://vita.had.co.nz/papers/tidy-data.pdf](http://vita.had.co.nz/papers/tidy-data.pdf)
 * [Data Wrangling cheatsheet -- https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf)
 * [dplyr vignette -- https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)
+
+## Week 7
+
