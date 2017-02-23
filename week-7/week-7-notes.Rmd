@@ -69,5 +69,170 @@ x <- list(rnorm(100), rnorm(1000), rnorm(10000))
 map_df(x, g)
 ```
 
+## Exercises
+
+Here is a simple linear model for the `diamonds` dataset where `price` is a linear function of `carat`:
+```{r}
+library(ggplot2)
+library(dplyr)
+
+data(diamonds)
+lm(price ~ carat, data = diamonds) %>% # fit a linear model
+    coefficients # extract just the coefficients from the model
+```
+
+1. Try fitting a separate model for each `cut` (you may need the `split` function), 
+and extracting the coefficients.
+
+# R markdown chunks and chunk options
+
+## The runtime environment
+
+It is important to note that how the code in R markdown files is executed. There are 2 distinct ways in which it occurs:
+
+1. Knitting the final output - This creates a new R session for the entire file, with the working directory set to the folder containing the R markdown file.
+
+2. Executing code chunks interactively - This runs code within the current console, with the corresponding default working directory. Thus, the working directory may be different than that used when knitting the output. Also, when testing code chunks interactively, there may be hidden dependencies on objects in the environment that may produce errors when knit.
+
+```{r, eval = FALSE}
+print(undefined_object_in_Rmd_environment)
+```
+
+## Chunk names
+
+Each code chunk needs a unique name. If no name is specified, then it receives a label of the form ` unnamed-chunk-i`. Chunk names are specified in the "header" portion defining the code chunk.
+
+<pre><code>```{r chunk name}
+
+```</code></pre>
+
+## Chunk options
+
+Code chunks can receive several different options, which affect how they are executed and the formatting of output. Chunk options are also specified in the "header" portion defining the code chunk.
+
+<pre><code>```{r chunk opt demo, option = value}
+
+```</code></pre>
+
+## Global chunk options
+
+Default chunk options for all subsequent code chunks can be created or modified using this command from the `knitr` package. Note that `knitr` is not loaded by default, so the common usage of the functions simply preface the call with `knitr::`.
+
+```
+opts_chunk$set()
+```
+
+```
+knitr::opts_chunk$set()
+```
+
+## Evaluation (`eval`)
+
+By default code chunks are both displayed (the content is included in the output), executed, and the results of the execution displayed. To skip execution of the code, the `eval` option can be set to `FALSE`:
+
+<pre><code>```{r do not run this chunk, eval = FALSE}
+# some code that takes a long time to run
+# (presumably you save the output after it's run once, and use it in later chunks when needed)
+```</code></pre>
+
+## Results (`echo`, `results`, `include`)
+
+We can also change whether the code itself is included in the final output:
+
+<pre><code>```{r do not output the code, echo = FALSE}
+# some messy code that you need to run, but don't need to include in the output
+```</code></pre>
+
+If we want to change the display of the code output, there are several choices for the `results` option:
+
+* Default:
+```{r}
+print(head(diamonds))
+ggplot(diamonds, aes(x = price, y = carat)) + geom_point()
+```
+
+* Combine all outputs together:
+```{r, results = "hold"}
+print(head(diamonds))
+ggplot(diamonds, aes(x = price, y = carat)) + geom_point()
+```
+
+* Don't show anything:
+```{r, results = "hide"}
+print(head(diamonds))
+ggplot(diamonds, aes(x = price, y = carat)) + geom_point()
+```
+
+* Format as displayed in R console:
+```{r, results = "asis"}
+print(head(diamonds))
+ggplot(diamonds, aes(x = price, y = carat)) + geom_point()
+```
+
+If we don't want to show the code or the output, but still evaluate it (and only have figures):
+
+```{r, include = FALSE}
+print(head(diamonds))
+ggplot(diamonds, aes(x = price, y = carat)) + geom_point()
+```
+
+## Caching results (`cache`, `cache.rebuild`, `dependson`)
+
+If you have calculations that take a long time, you can also choose to have the results saved for use in subsequent code chunks:
+
+```{r, cache = TRUE}
+set.seed(42)
+A <- matrix(rnorm(10000), nrow = 100) # some calculation that might take a long time
+```
+
+```{r}
+print(det(A))
+```
+
+By default, if you change anything in the code chunk, the code will be executed again. Sometimes you want to force this because the code chunk depends on a prior evaluation or input data that has changed:
+
+```{r, cache = TRUE, cache.rebuild = TRUE}
+set.seed(43)
+A <- matrix(rnorm(10000), nrow = 100) # make a new calculation
+```
+
+If you have a chain of code chunks that depend on each other, you can list dependencies so that a code chunk is re-evaluated if the previous cached output has changed:
+
+```{r start of calculation, cache = TRUE}
+set.seed(44)
+A <- matrix(rnorm(10000), nrow = 100) # make a new calculation
+```
+
+```{r part 2 of calculation, cache = TRUE, dependson = "start of calculation"}
+print(det(A))
+```
+
+```{r part 3 of calculation, cache = TRUE, dependson = "start of calculation"}
+print(det(solve(A)))
+```
+
+## Plot settings (`fig.width`, `fig.height`)
+
+Specify where to save figure outputs to file:
+
+```{r, fig.path = "figure/"}
+ggplot(diamonds, aes(x = cut, y = price)) + geom_violin()
+```
+
+Change dimensions of embedded output
+```{r, fig.width = 6, fig.height = 4}
+ggplot(diamonds, aes(x = cut, y = price)) + geom_violin()
+```
+
 # Resources
+
+* ["R for Data Science" on map functions -- http://r4ds.had.co.nz/iteration.html#the-map-functions](http://r4ds.had.co.nz/iteration.html#the-map-functions)
+
+* [`purrr` GitHub repo -- https://github.com/hadley/purrr](https://github.com/hadley/purrr)
+
+* [Code chunk guide (basic) -- http://rmarkdown.rstudio.com/authoring_rcodechunks.html](http://rmarkdown.rstudio.com/authoring_rcodechunks.html)
+
+* [R markdown guide -- http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html](http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html)
+
+* [`knitr` chunk options -- https://yihui.name/knitr/options/](https://yihui.name/knitr/options/)
 
