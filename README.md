@@ -116,4 +116,9 @@ Students are **highly encouraged** to bring laptops to class to follow along.
 * [dplyr vignette -- https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)
 
 ## Week 7
+* ["R for Data Science" on map functions -- http://r4ds.had.co.nz/iteration.html#the-map-functions](http://r4ds.had.co.nz/iteration.html#the-map-functions)
+* [`purrr` GitHub repo -- https://github.com/hadley/purrr](https://github.com/hadley/purrr)
+* [Code chunk guide (basic) -- http://rmarkdown.rstudio.com/authoring_rcodechunks.html](http://rmarkdown.rstudio.com/authoring_rcodechunks.html)
+* [R markdown guide -- http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html](http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html)
+* [`knitr` chunk options -- https://yihui.name/knitr/options/](https://yihui.name/knitr/options/)
 

@@ -81,8 +81,7 @@ lm(price ~ carat, data = diamonds) %>% # fit a linear model
     coefficients # extract just the coefficients from the model
 ```
 
-1. Try fitting a separate model for each `cut` (you may need the `split` function), 
-and extracting the coefficients.
+1. Try fitting a separate model for each `cut` (you may need the `split` function), and extracting the coefficients.
 
 # R markdown chunks and chunk options
 
@@ -148,32 +147,32 @@ If we want to change the display of the code output, there are several choices f
 * Default:
 ```{r}
 print(head(diamonds))
-ggplot(diamonds, aes(x = price, y = carat)) + geom_point()
+ggplot(diamonds, aes(x = carat, y = price)) + geom_point()
 ```
 
 * Combine all outputs together:
 ```{r, results = "hold"}
 print(head(diamonds))
-ggplot(diamonds, aes(x = price, y = carat)) + geom_point()
+ggplot(diamonds, aes(x = carat, y = price)) + geom_point()
 ```
 
 * Don't show anything:
 ```{r, results = "hide"}
 print(head(diamonds))
-ggplot(diamonds, aes(x = price, y = carat)) + geom_point()
+ggplot(diamonds, aes(x = carat, y = price)) + geom_point()
 ```
 
 * Format as displayed in R console:
 ```{r, results = "asis"}
 print(head(diamonds))
-ggplot(diamonds, aes(x = price, y = carat)) + geom_point()
+ggplot(diamonds, aes(x = carat, y = price)) + geom_point()
 ```
 
 If we don't want to show the code or the output, but still evaluate it (and only have figures):
 
 ```{r, include = FALSE}
 print(head(diamonds))
-ggplot(diamonds, aes(x = price, y = carat)) + geom_point()
+ggplot(diamonds, aes(x = carat, y = price)) + geom_point()
 ```
 
 ## Caching results (`cache`, `cache.rebuild`, `dependson`)
