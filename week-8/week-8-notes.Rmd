@@ -1,0 +1,188 @@
+---
+title: "Week 8"
+author: "Hao Ye"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+css: styles.css
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+    smart: FALSE
+---
+
+```{r setup, include = FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Objectives
+* 3d plotting using `rgl`
+    - basic plots with points and lines
+    - setting plotting parameters
+    - surface plots
+    - output to file
+    - R markdown hooks
+
+# 3D plotting
+
+The `rgl` package allows us to produce interactive 3-d plots. The basic commands are similar to the plotting functions in base R.
+
+## Basic plots
+
+The default plot3d uses points. Input is given as x, y, z coordinates as separate vectors, or as columns to a matrix or data.frame.
+
+```{r}
+library(rgl)
+library(viridis)
+
+n <- 1000
+x <- sort(rnorm(n))
+y <- rnorm(n)
+z <- rnorm(n) + atan2(x, y)
+plot3d(x, y, z, col = viridis(n))
+```
+
+Changing the plot type to `s` draws spheres instead of flat points.
+
+```{r}
+plot3d(x, y, z, type = "s", col = viridis(n), size = 1)
+```
+
+Changing the plot type to `l` draws connected lines.
+
+```{r}
+f <- function(x) {c(10 * (x[2] - x[1]), 
+                    x[1] * (28 - x[3]) - x[2], 
+                    x[1] * x[2] - 8/3 * x[3])}
+
+points <- matrix(20, nrow = n, ncol = 3)
+dt <- 0.01
+for(t in 2:NROW(points))
+{
+    xx <- points[t-1,]
+    k1 <- f(xx)
+    k2 <- f(xx + dt/2 * k1)
+    k3 <- f(xx + dt/2 * k2)
+    k3 <- f(xx + dt/2 * k3)
+    k4 <- f(xx + dt * k3)
+    points[t,] <- xx + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
+}
+
+dist_1 <- sqrt(rowSums((points - matrix(c(6*sqrt(2), 6*sqrt(2), 27), 
+                                     nrow = n, ncol = 3, byrow = TRUE))^2))
+dist_2 <- sqrt(rowSums((points - matrix(c(-6*sqrt(2), -6*sqrt(2), 27), 
+                                     nrow = n, ncol = 3, byrow = TRUE))^2))
+min_dist <- pmin(dist_1, dist_2)
+
+plot3d(points, type = "l", col = hsv(h = (min_dist - min(min_dist)) / (max(min_dist) - min(min_dist)), s = 1, v = 1))
+```
+
+## Adding points and lines to a plot
+
+Note that points and lines can be added to an existing plot using the `points3d` and `lines3d` functions respectively.
+
+```{r}
+x <- sort(rnorm(n))
+y <- rnorm(n)
+z <- rnorm(n)
+plot3d(x, y, z, col = viridis(n), size = 2)
+
+theta <- seq(0, 4*pi, length.out = n)
+phi <- seq(0, 2*pi, length.out = n)
+lines3d(cos(seq(0, 4*pi, length.out = n)), 
+        sin(seq(0, 8*pi, length.out = n)), 
+        cos(seq(0, 6*pi, length.out = n)), lwd = 5)
+
+points3d(mean(x), mean(y), mean(z), size = 10)
+```
+
+## Plot parameters
+
+To make plots reproducible, it's useful to be able to recreate specific plot settings, e.g. after resizing, rotating the interactive plot. `par3d` is the function that both sets and gets plot parameters. I found that the important ones are 
+
+```{r}
+plot3d(points, type = "l", col = hsv(h = (min_dist - min(min_dist)) / (max(min_dist) - min(min_dist)), s = 1, v = 1))
+
+par3d()
+```
+
+```{r}
+userMatrix <- matrix(c(0.8016672, 0.5976394, -0.01252565, 0, 
+                       -0.1470179, 0.2174320, 0.96493983, 0, 
+                       0.5794096, -0.7717192, 0.26217180, 0, 
+                       0.0000000, 0.0000000, 0.00000000, 1), 
+                     byrow = TRUE, nrow = 4)
+zoom <- 1
+windowRect <- c(2, 44, 944, 878)
+scale <- c(1.0325553, 0.8813157, 1.1362212)
+FOV <- 30
+observer <- matrix(c(0, 0, 160), ncol = 3)
+par3d(userMatrix = userMatrix, 
+      zoom = zoom, 
+      FOV = FOV, 
+      scale = scale, 
+      windowRect = windowRect)
+observer3d(observer)
+```
+
+## Changing plot settings
+
+Note that we can also control the display of axes and bounding boxes:
+
+```{r}
+plot3d(points, type = "l", col = hsv(h = (min_dist - min(min_dist)) / (max(min_dist) - min(min_dist)), s = 1, v = 1), 
+       axes = FALSE, 
+       xlab = "x", ylab = "", zlab = "z")
+axes3d(c("x--", "y+-", "z--"))
+mtext3d("y", "y+-", line = 2)
+```
+
+## Surface Plots
+
+```{r}
+data(volcano)
+
+z <- 2 * volcano        # Exaggerate the relief
+x <- 10 * (1:nrow(z))   # 10 meter spacing (S to N)
+y <- 10 * (1:ncol(z))   # 10 meter spacing (E to W)
+
+zlim <- range(y)
+zlen <- zlim[2] - zlim[1] + 1
+
+colorlut <- terrain.colors(zlen) # height color lookup table
+
+col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
+
+surface3d(x, y, z, color = col, back = "lines")
+```
+
+## Saving output to a file
+
+An existing plot can be saved to a file using the `rgl.postscript` function, which can export several different formats
+
+```{r}
+plot3d(points, type = "l", col = hsv(h = (min_dist - min(min_dist)) / (max(min_dist) - min(min_dist)), s = 1, v = 1))
+
+rgl.postscript("lorenz.pdf", fmt = "pdf")
+```
+
+## R markdown hooks
+
+`rgl` plots are created in a separate window, which means that they don't normally show up in knitted output from R markdown. However, the `knitr` package contains hooks to embed `rgl` plots, either in static form (`hook_rgl`) or as an interactive webgl figure (`hook_webgl`).
+
+```{r}
+library(knitr)
+knit_hooks$set(rgl = hook_rgl)
+knit_hooks$set(webgl = hook_webgl)
+```
+
+```{r, rgl = TRUE}
+plot3d(points, type = "l", col = hsv(h = (min_dist - min(min_dist)) / (max(min_dist) - min(min_dist)), s = 1, v = 1))
+```
+
+```{r, webgl = TRUE}
+plot3d(points, type = "l", col = hsv(h = (min_dist - min(min_dist)) / (max(min_dist) - min(min_dist)), s = 1, v = 1))
+```
+
+# Resources
+
+* 

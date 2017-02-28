@@ -69,7 +69,7 @@ Students are **highly encouraged** to bring laptops to class to follow along.
     * R markdown chunk options (`eval`, `include`, `cache`)
 * March 2 (Week 8)
     * 3d plots (`rgl`)
-    * Animation (`gganimate`)
+    * ~~Animation (`gganimate`)~~
 * March 9 (Week 9)
     * Interactive web apps (`shiny`)
 * March 16 (Week 10)
