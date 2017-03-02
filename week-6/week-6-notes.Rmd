@@ -1,0 +1,288 @@
+---
+title: "Week 6"
+author: "Hao Ye"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+css: styles.css
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+    smart: FALSE
+---
+
+```{r setup, include = FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Objectives
+* Principles of tidy data
+* Converting between wide and long (`tidyr` package) [review]
+* Advanced data wrangling (`dplyr` package)
+    - subsetting data (`filter`, `select`)
+    - summarizing data (`group_by`, `summarize`)
+    - transforming data (`mutate`)
+    - chaining (`%>%`)
+* Repetitive Tasks
+    - `lapply` (base R) 
+    - `map` (`purrr` package)
+
+# Principles of tidy data
+
+## Definition
+**Tidy data** has the following properties:
+1. Each variable forms a column
+2. Each observation forms a row.
+3. Each type of observational unit forms a table.
+
+## Example
+Here is an example of a dataset in **tidy data** format:
+```{r}
+data.frame(name = rep(c("John Smith", "Jane Doe", "Mary Johnson"), 2), 
+           treatment = rep(c("a", "b"), each = 3), 
+           result = c(NA, 16, 3, 2, 11, 1))
+```
+
+Note that this is commonly called **long**-form data.
+
+## Non-examples
+Some examples in a non-tidy format are:
+
+```{r}
+data.frame("_" = c("John Smith", "Jane Doe", "Mary Johnson"), 
+           treatment_a = c(NA, 16, 3), 
+           treatment_b = c(2, 11, 1))
+```
+
+```{r}
+data.frame("_" = c("treatment_a", "treatment_b"), 
+           "John Smith" = c(NA, 2), 
+           "Jane Doe" = c(16, 11), 
+           "Mary Johnson" = c(3, 1))
+```
+
+## Common Problems
+
+* column headers are values, not variable names
+* multiple variables are stored in one column
+* variables are stored in both rows and columns
+* multiple types of observational units are stored in the same table
+* a single observational unit is stored in multiple tables
+
+
+# Converting between wide and long (`tidyr` package) [review]
+
+## Data setup
+First, we examine the `mtcars` dataset:
+```{r}
+summary(mtcars)
+```
+
+Note that there is no column with a unique identifier - the car names are in the row names of the data frame!
+
+We can fix that by adding in a new column. Note that we do it in this particular way so that `model` is the first column of the resulting data frame.
+
+```{r}
+mtcars <- data.frame(model = rownames(mtcars), mtcars)
+summary(mtcars)
+```
+
+## Convert to long format
+
+Here, we operate under the notion that the properties of each car are not different `variables`, but simply different values of the variable `metric` that describes what is being measured.
+
+```{r}
+library(tidyr)
+
+mtcars_long <- gather(mtcars, metric, measurement, mpg:carb)
+mtcars_long$metric <- as.factor(mtcars_long$metric)
+
+summary(mtcars_long)
+```
+
+## Convert to wide format
+
+Note that we can just as easily go in the opposite direction, by splitting the different levels of `metric` into different `variables`.
+
+```{r}
+mtcars_wide <- spread(mtcars_long, metric, measurement)
+summary(mtcars_wide)
+```
+
+# Advanced data wrangling (`dplyr` package)
+
+From the **Introduction to `dplyr`** vignette:
+
+> When working with data you must:
+> 
+> * Figure out what you want to do.
+> * Describe those tasks in the form of a computer program.
+> * Execute the program.
+>
+> The dplyr package makes these steps fast and easy:
+> 
+> * By constraining your options, it simplifies how you can think about common data manipulation tasks.
+> * It provides simple "verbs", functions that correspond to the most common data manipulation tasks, to help you translate those thoughts into code.
+> * It uses efficient data storage backends, so you spend less time waiting for the computer.
+
+Sample dataset:
+
+```{r}
+library(dplyr)
+library(nycflights13)
+dim(flights)
+head(flights)
+```
+
+## subsetting data (`filter`, `select`)
+
+```{r}
+# subset rows (only flights from January 1)
+filter(flights, month == 1, day == 1)
+```
+
+```{r}
+# subset columns (only departure date info)
+select(flights, year, month, day)
+select(flights, year:day)
+
+# all other columns
+select(flights, -(year:day))
+```
+
+## transforming data (`mutate`)
+
+Add new columns based on existing columns:
+```{r}
+mutate(flights, 
+       speed = distance / air_time * 60) # mph
+```
+
+## summarizing data (`summarize`)
+
+Generate summary statistics
+```{r}
+summarize(flights, 
+          avg_delay = mean(dep_delay, na.rm = TRUE)) # average delay, ignoring NA values
+```
+
+## grouping data (`group_by`)
+
+```{r}
+destinations <- group_by(flights, dest) # for each separate destination
+summarize(destinations, 
+          planes = n_distinct(tailnum), # how many unique planes?
+          flights = n()) # how many unique flights?
+```
+
+## Chaining
+
+Note that the output of each call is another data frame. Thus, if we want to apply a sequence of processing steps, we would either need to save the intermediate output:
+
+```{r}
+a1 <- group_by(flights, year, month, day)
+a2 <- select(a1, arr_delay, dep_delay)
+a3 <- summarize(a2, 
+                mean_arr_delay = mean(arr_delay, na.rm = TRUE), 
+                mean_dep_delay = mean(dep_delay, na.rm = TRUE))
+a4 <- filter(a3, mean_arr_delay > 30 | mean_dep_delay > 30)
+a4
+```
+
+OR chain the functions together, but in reverse order: the first processing step is the inner-most operation:
+
+```{r}
+filter(
+    summarize(
+        select(
+            group_by(flights, year, month, day), 
+            arr_delay, dep_delay
+        ), 
+        mean_arr_delay = mean(arr_delay, na.rm = TRUE), 
+        mean_dep_delay = mean(dep_delay, na.rm = TRUE)
+    ), 
+    mean_arr_delay > 30 | mean_dep_delay > 30
+)
+```
+
+But `dplyr` loads a dependency with a "pipe" operator, which allows us to order our processing steps correctly.
+
+**Note that this works by passing the output of one step as the first input argument into the next step, such that the *input data frame* for each `dplyr` function is skipped.**
+
+```{r}
+flights %>%
+    group_by(year, month, day) %>% 
+    select(arr_delay, dep_delay) %>% 
+    summarize(mean_arr_delay = mean(arr_delay, na.rm = TRUE), 
+              mean_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+    filter(mean_arr_delay > 30 | mean_dep_delay > 30)
+```
+
+## Exercises
+
+Working from `ggplot2` and the `diamonds` dataset:
+
+```{r}
+library(ggplot2)
+diamonds
+```
+
+1. Make a boxplot of `price` for each `cut`.
+2. Make a line plot of the median `price` for each `cut`.
+3. Make a line plot of the median `price` for each `cut`, and add dashed lines for the upper- and lower-quartiles.
+4. Make a line plot of the median `price` for each `cut`, and add dashed lines for the upper- and lower-quartiles, and the 0.05 and 0.095 quantiles.
+5. Compute price-per-carat, and redo 4. with the new variable.
+6. Make a scatterplot of `price` per `carat`, colored by `cut`.
+7. Add in larger points for the median values for each `cut`.
+8. Add in "2D error bars" for each `cut` using upper- and lower-quartiles.
+9. Redo 8., but facet by color and clarity.
+
+# Repetitive Tasks
+
+## `lapply` (base R)
+
+`lapply` allows us to repeat a series of computations, specifically by making repeated function calls. The basic idea is that given a **vector** or **list** of inputs, `x`, and a function to apply for each input, `f`, produce the **list** of outputs, `y`.
+
+In other words, each element, `y[i]` is computed as `f(x[i])`.
+
+Because we use a function, each computation (generally) occurs independently of the others. This resolves some of the issues that can occur when using for-loops, by maintaining a consistent context for running the code in `f`.
+
+```{r}
+x <- 1:10
+f <- sqrt # note that we want the actual function, so no ()
+logp1 <- function(input) {log(input+1)}
+y1 <- lapply(x, f)
+y2 <- lapply(x, logp1)
+```
+
+Since the result is a list (safest form, since the outputs could be different types), if we want to combine them into a single data.frame using `unlist`.
+```{r}
+data.frame(x, unlist(y1), unlist(y2))
+```
+
+## `map` (`purrr` package)
+
+In many cases, the `map` function from the `purrr` package operates the same as `lapply`:
+
+```{r}
+library(purrr)
+z1 <- map(x, f)
+z2 <- map(x, logp1)
+
+data.frame(x, unlist(y1), unlist(y2), unlist(z1), unlist(z2))
+```
+
+Personally, I only use `purrr` for `map_df`, which combines outputs that are data frames into a single data frame. This is useful for e.g. doing complex computations that return summary data frames, on multiple inputs. (The alternative is a slightly clunky use of `do.call(rbind, )`).
+
+```{r}
+g <- function(input) {return(data.frame(mean = mean(input), uq = quantile(input, 0.75), lq = quantile(input, 0.25)))}
+
+x <- list(rnorm(100), rnorm(1000), rnorm(10000))
+
+map_df(x, g)
+```
+
+# Resources
+
+* [Tidy Data -- http://vita.had.co.nz/papers/tidy-data.pdf](http://vita.had.co.nz/papers/tidy-data.pdf)
+* [Data Wrangling cheatsheet -- https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf)
+* [dplyr vignette -- https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)

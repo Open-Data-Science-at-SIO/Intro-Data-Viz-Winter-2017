@@ -1,0 +1,295 @@
+---
+title: "Week 4"
+author: "Hao Ye"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+css: styles.css
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+    smart: FALSE
+---
+
+```{r setup, include = FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Objectives
+
+* Changing colors in ggplot
+* The theme layer in ggplot
+* Custom color palettes (`viridis`, `spaceMovie`)
+* Adding statistical transformations and summaries to plots
+
+# Review of ggplot
+
+Previously, we introduced ggplot as a framework for constructing plots that emphasizes flexibility through its "grammar of graphics" system. Here we review some of the basic ideas.
+
+## Load the dataset from last week
+
+```{r}
+dat <- read.csv("../week-3/EconomistData.csv") # note the path
+head(dat)
+```
+
+## Scatter plot with CPI on the x axis and HDI on the y axis
+
+```{r}
+library(ggplot2)
+
+my_plot <- ggplot(dat, aes(x = CPI, y = HDI))
+my_plot + geom_point()
+```
+
+# Changing colors in ggplot
+
+## Intro 
+
+If we wanted to change the color of points in the plot, we might imagine two ways:
+1. specify color in the geom layer (`geom_point` function)
+2. specify color in the mapping layer (`aes` function)
+
+What do you suppose each one does?
+
+```{r, eval = FALSE}
+my_plot <- ggplot(dat, aes(x = CPI, y = HDI, color = "blue"))
+my_plot + geom_point()
+```
+
+```{r, eval = FALSE}
+my_plot <- ggplot(dat, aes(x = CPI, y = HDI))
+my_plot + geom_point(color = "blue")
+```
+
+## Basic Color Specification
+
+Setting the color to be defined by the region variable produces a colored boxplot:
+```{r}
+my_plot <- ggplot(dat, aes(x = Region, y = HDI, color = Region))
+my_plot + geom_boxplot()
+```
+
+But if we wanted to change the actual colors used, we need to specify what colors we want:
+```{r}
+my_plot <- ggplot(dat, aes(x = Region, y = HDI, color = Region))
+my_plot + geom_boxplot() + scale_color_manual(values = c("red", "green", "blue", "magenta", "cyan", "yellow"))
+```
+
+And we can similarly define the exact mapping we want:
+```{r}
+my_plot <- ggplot(dat, aes(x = Region, y = HDI, color = Region))
+my_plot + geom_boxplot() + 
+    scale_color_manual(values = c("Asia Pacific" = "red", 
+                                  "East EU Cemt Asia" = "green", 
+                                  "MENA" = "blue", 
+                                  "EU W. Europe" = "magenta", 
+                                  "SSA" = "cyan", 
+                                  "Americas" = "yellow"))
+```
+
+## What are the colors?
+
+Colors in R can be found using the names listed in the output of "colors":
+```{r}
+head(colors())
+```
+
+
+And we can use these names when specifying colors:
+```{r}
+my_plot <- ggplot(dat, aes(x = Region, y = HDI))
+my_plot + geom_boxplot(color = "midnightblue")
+```
+
+Alternatively, we can use one of the standard color spaces:
+```{r}
+my_color <- hsv(0.5, 0.75, 1.0) # <hue, saturation, value> color space
+my_color <- rgb(0.25, 0.75, 0.5) # <red, green, blue> color space
+my_color <- "#40C080" # using hexadecimal code
+my_plot <- ggplot(dat, aes(x = Region, y = HDI))
+my_plot + geom_boxplot(color = my_color)
+```
+
+# The theme layer in ggplot
+
+In ggplot, the `theme` layer controls all the **non-data** aspects of a plot.
+
+## Default themes
+
+We can modify our plots by using some of the built-in themes:
+
+```{r}
+my_plot <- ggplot(dat, aes(x = Region, y = HDI, color = Region)) + geom_boxplot()
+my_plot + theme_bw()
+```
+
+```{r}
+my_plot + theme_dark()
+```
+
+## Custom themes
+
+We can also customize the theme and specify changes to various components of the plot:
+
+```{r}
+my_plot + theme(
+    axis.text = element_text(size = 14), 
+    legend.key = element_rect(fill = "lightsalmon"), 
+    legend.background = element_blank(), 
+    panel.grid.minor = element_blank(), 
+    panel.background = element_rect(fill = "lemonchiffon3")
+)
+```
+
+Note that the modular nature of ggplot means you can save theme objects and re-use them, e.g. throughout a paper, or as part of a package, just like the default `theme_bw()`:
+
+```{r}
+my_theme <- theme(panel.grid.major = element_blank(),
+                  panel.grid.minor = element_blank(),
+                  axis.text = element_text(color = "black"), 
+                  legend.background = element_rect(color = "black"), 
+                  legend.key = element_blank(), 
+                  legend.title = element_blank(), 
+                  legend.position = c(0.5, 0), 
+                  legend.justification = c(0.5, 0), 
+                  legend.margin = margin(0.0, unit = "cm"), 
+                  legend.key.size = unit(1.05, "lines"), 
+                  legend.key.height = unit(1.05, "lines"), 
+                  panel.background = element_rect(color = "black", fill = NA))
+
+my_plot + my_theme
+my_plot + my_theme + theme(legend.position = "none")
+```
+
+# Custom color palettes
+
+Note that we previously specified a set of colors using `scale_color_manual` which is used to create a custom color scale (each color is manually specified.
+
+## Built-in color palettes
+
+As you might expect, ggplot has some built-in color options. Here are some of the ones to generate a **discrete** set of colors:
+
+```{r}
+my_plot + scale_color_grey()
+```
+
+```{r}
+my_plot + scale_color_hue()
+```
+
+And some to generate a **continuous** set of colors:
+
+```{r}
+my_plot_2 <- ggplot(dat, aes(x = CPI, y = HDI, color = HDI)) + 
+    geom_point()
+my_plot_2 + scale_color_gradient2(low = "blue", mid = "black", high = "pink", midpoint = 0.6)
+```
+
+## Color palettes from packages
+
+We can also use color palettes provided in packages:
+
+```{r}
+library(viridis)
+my_plot + scale_color_viridis(discrete = TRUE)
+my_plot_2 + scale_color_viridis(option = "A")
+```
+
+```{r}
+library(spaceMovie)
+my_plot + scale_color_manual(values = SW_palette("ANH"))
+my_plot_2 + scale_color_gradientn(colors = SW_palette("AOTC"))
+```
+
+```{r}
+my_plot + scale_color_brewer(palette = "Set3")
+my_plot_2 + scale_color_distiller(palette = "RdYlGn")
+```
+
+## Exercises
+
+1. Modify the HDI vs. CPI plot to use a different color and symbol for each region.
+
+```{r}
+ggplot(dat, aes(x = CPI, y = HDI, 
+                color = Region, shape = Region)) + geom_point()
+```
+
+2. Modify the HDI boxplot to use a different color palette for the lines and for the fill.
+
+```{r}
+ggplot(dat, aes(x = Region, y = HDI, 
+                color = Region, fill = Region)) + 
+    geom_boxplot() + 
+    scale_color_viridis(discrete = TRUE) + 
+    scale_fill_viridis(discrete = TRUE, direction = -1)
+```
+
+
+# Adding statistic transformations and summaries to plots
+
+By default, each `geom` has a `stat` component associated with it that describes how visually displays the plot. In `geom_point` for example, the `stat` is `identity`, because the x- and y- coordinates are being plotted as-is. In contrast, `geom_boxplot` must compute the bounds of the boxplot for the specified groups, and so that `stat` is `boxplot`.
+
+For `geom_histogram`, the default `stat` is to count up the number of values in each bin:
+
+```{r}
+housing <- read.csv("../week-3/landdata-states.csv")
+ggplot(housing, aes(x = Home.Value)) + 
+    geom_histogram()
+ggplot(housing, aes(x = Home.Value)) + 
+    geom_histogram(stat = "bin", binwidth = 4000)
+```
+
+We can also add some of these statistical summaries to plots using `stat_*` functions instead of `geom_*` functions:
+
+```{r}
+my_plot + stat_summary_bin()
+```
+
+```{r}
+my_plot_2 + stat_smooth()
+```
+
+## Exercises
+
+1. Overlay a smoothing line on top of the scatter plot of HDI vs. CPI using `geom_smooth`, but use a linear model for the predictions. Hint: see `?stat_smooth`.
+
+```{r}
+ggplot(dat, aes(x = CPI, y = HDI)) + 
+    geom_point() + 
+    geom_smooth(method = "lm")
+```
+
+2. Overlay a smoothing line on top of the scatter plot using `geom_line`. Hint: change the statistical transformation.
+
+```{r}
+ggplot(dat, aes(x = CPI, y = HDI)) + 
+    geom_point() + 
+    geom_line(stat = "smooth", method = "loess")
+```
+
+3. Overlay a smoothing line on top of the scatter plot using the default `loess` method, but make it less smooth. Hint: see `?loess`.
+
+```{r}
+ggplot(dat, aes(x = CPI, y = HDI)) + 
+    geom_point() + 
+    geom_line(stat = "smooth", method = "loess", span = 0.2)
+```
+
+4. Try the above, but with different colors and smoothing for each `Region`.
+
+```{r}
+ggplot(dat, aes(x = CPI, y = HDI, 
+                group = Region, color = Region)) + 
+    geom_point() + 
+    geom_smooth(method = "lm") + 
+    scale_color_viridis(discrete = TRUE)
+```
+
+# Resources
+
+* [theme layer documentation in ggplot -- http://docs.ggplot2.org/dev/vignettes/themes.html](http://docs.ggplot2.org/dev/vignettes/themes.html)
+* [`spaceMovie` package for Star Wars palettes -- https://github.com/butterflyology/spaceMovie](https://github.com/butterflyology/spaceMovie)
+* [`viridis` package for color palettes -- https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
+* [Info about different color scales in ggplot -- http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/)
+* [Cheatsheet about color palettes -- https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf)

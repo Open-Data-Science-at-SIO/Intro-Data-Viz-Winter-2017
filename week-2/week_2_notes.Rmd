@@ -287,7 +287,7 @@ mtcars_wide <- spread(mtcars_long, variable, measurement)
 summary(mtcars_wide)
 ```
 
-# Extras
+# Resources
 
 ## Additional Information 
 
