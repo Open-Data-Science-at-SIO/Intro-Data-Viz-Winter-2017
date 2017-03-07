@@ -72,7 +72,7 @@ Students are **highly encouraged** to bring laptops to class to follow along.
     * ~~Animation (`gganimate`)~~
 * March 9 (Week 9)
     * Interactive web apps (`shiny`)
-* March 16 (Week 10)
+* March 16 (Week 10 / Finals)
     * TBD (unassigned - catch-up week / guest speaker / advanced topic)
 
 # Links
@@ -121,4 +121,14 @@ Students are **highly encouraged** to bring laptops to class to follow along.
 * [Code chunk guide (basic) -- http://rmarkdown.rstudio.com/authoring_rcodechunks.html](http://rmarkdown.rstudio.com/authoring_rcodechunks.html)
 * [R markdown guide -- http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html](http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html)
 * [`knitr` chunk options -- https://yihui.name/knitr/options/](https://yihui.name/knitr/options/)
+
+## Week 8
+
+[1] http://scs.math.yorku.ca/index.php/MATH_6627_2012-13_Practicum_in_Statistical_Consulting/R_tutorials/rgl_tutorial
+[2] http://www.sthda.com/english/wiki/a-complete-guide-to-3d-visualization-device-system-in-r-r-software-and-data-visualization#setup-the-environment
+[3] https://www.r-bloggers.com/creating-3d-geographical-plots-in-r-using-rgl/
+[4] https://cran.r-project.org/web/packages/rgl/vignettes/rgl.html
+[5] http://brazenly.blogspot.com/2016/08/r-graphics-tutorial-series-part-3.html
+[6] A package that builds upon rgl: Ocean View -- [vignette](https://cran.r-project.org/web/packages/OceanView/vignettes/OceanView.pdf); [additional links](http://www.rforscience.com/rpackages/visualisation/oceanview/)
+
 
