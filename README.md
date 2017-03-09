@@ -131,4 +131,8 @@ Students are **highly encouraged** to bring laptops to class to follow along.
 [5] http://brazenly.blogspot.com/2016/08/r-graphics-tutorial-series-part-3.html
 [6] A package that builds upon rgl: Ocean View -- [vignette](https://cran.r-project.org/web/packages/OceanView/vignettes/OceanView.pdf); [additional links](http://www.rforscience.com/rpackages/visualisation/oceanview/)
 
-
+## Week 9
+* [Shiny webpage -- https://shiny.rstudio.com/](https://shiny.rstudio.com/)
+* [Shiny user showcase](https://www.rstudio.com/products/shiny/shiny-user-showcase/)
+* [Shiny basics video](https://vimeo.com/rstudioinc/review/131218530/212d8a5a7a/#t=4m08s)
+* [Shiny tutorial](https://shiny.rstudio.com/tutorial/lesson1/)
